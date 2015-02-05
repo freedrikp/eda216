@@ -221,7 +221,9 @@ public class BookingPane extends BasicPane {
 			}
 			String movieName = nameList.getSelectedValue();
 			/* --- insert own code here --- */
+			clearFields();
 			fillDateList(movieName);
+			fields[MOVIE_NAME].setText(movieName);
 		}
 	}
 
@@ -244,6 +246,7 @@ public class BookingPane extends BasicPane {
 			String movieName = nameList.getSelectedValue();
 			String date = dateList.getSelectedValue();
 			/* --- insert own code here --- */
+			clearFields();
 			Performance p = db.getPerformance(movieName, date);
 			fields[MOVIE_NAME].setText(p.getmName());
 			fields[PERF_DATE].setText(p.getsDate());
