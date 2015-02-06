@@ -153,8 +153,9 @@ public class Database {
 	public int bookSeat(String movieName, String date){
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String freeSeatsSql = "select (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ?";
+		String freeSeatsSql = "select (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ? for update";
 		try {
+			conn.setAutoCommit(false);
 			ps = conn.prepareStatement(freeSeatsSql);
 			ps.setString(1,date);
 			ps.setString(2, movieName);
@@ -169,7 +170,6 @@ public class Database {
 		String sql = "insert into Reservations(uName,sDate,mName) "
 		          + "values(?, ?, ?)";
 		  try {
-			conn.setAutoCommit(false);
 			ps = conn.prepareStatement(sql);
 			ps.setString(1,CurrentUser.instance().getCurrentUserId());
 			ps.setString(2,date);
