@@ -70,8 +70,7 @@ public class BookingPane extends BasicPane {
 	 * The total number of fields.
 	 */
 	private static final int NBR_FIELDS = 4;
-	
-	
+
 	/**
 	 * Create the booking pane.
 	 * 
@@ -174,24 +173,25 @@ public class BookingPane extends BasicPane {
 	 */
 	private void fillNameList() {
 		nameListModel.removeAllElements();
-        /* --- insert own code here --- */
+		/* --- insert own code here --- */
 		ArrayList<String> movies = db.getMovies();
-		for (int i = 0; i< movies.size(); i++){
-			nameListModel.add(i,movies.get(i));
+		for (int i = 0; i < movies.size(); i++) {
+			nameListModel.add(i, movies.get(i));
 		}
 	}
 
 	/**
 	 * Fetch performance dates from the database and display them in the date
 	 * list.
-	 * @param movieName 
+	 * 
+	 * @param movieName
 	 */
 	private void fillDateList(String movieName) {
 		dateListModel.removeAllElements();
-        /* --- insert own code here --- */
+		/* --- insert own code here --- */
 		ArrayList<String> date = db.getDates(movieName);
-		for (int i = 0; i< date.size(); i++){
-			dateListModel.add(i,date.get(i));
+		for (int i = 0; i < date.size(); i++) {
+			dateListModel.add(i, date.get(i));
 		}
 	}
 
@@ -281,18 +281,28 @@ public class BookingPane extends BasicPane {
 			String movieName = nameList.getSelectedValue();
 			String date = dateList.getSelectedValue();
 			/* --- insert own code here --- */
+			// n = error kod, n=0 -> allt gick bra.
 			int n = db.bookSeat(movieName, date);
-			// 2 = error no seats
-			if (n == 2) {
+			// -3 = error vid uppdatering av seats
+			if(n== -3){
+				displayMessage("Error: update");
+				
+			// -2 = error no seats
+			}else if (n == -2) {
 				displayMessage("No seats availible :(");
-			
-			// 1 = error no seats
-			}else if(n ==1){
+
+			// -1 = error no seats
+			}else if(n == -1){
 				displayMessage("User doesn't exist.");				
 			}else{
-				displayMessage("Your reservation is done! :)");				
+				displayMessage("Your reservation is done! Reserv.nr: " + n);				
 			}
-			return;
+			clearFields();
+			Performance show = db.getPerformance(movieName, date);
+			fields[MOVIE_NAME].setText(show.getmName());
+			fields[PERF_DATE].setText(show.getsDate());
+			fields[THEATER_NAME].setText(show.gettName());
+			fields[FREE_SEATS].setText(show.getFreeSeats());
 		}
 	}
 }

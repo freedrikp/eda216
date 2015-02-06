@@ -152,22 +152,61 @@ public class Database {
 	
 	public int bookSeat(String movieName, String date){
 		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String freeSeatsSql = "select (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ?";
+		try {
+			ps = conn.prepareStatement(freeSeatsSql);
+			ps.setString(1,date);
+			ps.setString(2, movieName);
+			rs = ps.executeQuery(); 
+			rs.next();
+			if(Integer.parseInt(rs.getString("freeSeats")) <= 0) return -2; // No seats available
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		String sql = "insert into Reservations(uName,sDate,mName) "
 		          + "values(?, ?, ?)";
 		  try {
-			//conn.setAutoCommit(false);
+			conn.setAutoCommit(false);
 			ps = conn.prepareStatement(sql);
 			ps.setString(1,CurrentUser.instance().getCurrentUserId());
 			ps.setString(2,date);
 			ps.setString(3,movieName);
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			return 1; //User doesn't exist ...
+			e.printStackTrace();
+			return -1; //User doesn't exist ...
 		}
-		 //conn.commit(); 
-		  //IF 2 -> no seats available ...ska lagga till.
-		return 0;
+		  sql = "update Shows "
+          + "set nbrBooked = nbrBooked+1 "
+          + "where mName = ? "
+          + "and sDate = ?";
+		  try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1,movieName);
+			ps.setString(2,date);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -3; //update error ...
+		}
+		  int n = 0;
+		  sql = "select last_insert_id() as last_id "
+		          + "from Reservations";
+				  try {
+					ps = conn.prepareStatement(sql);
+					rs = ps.executeQuery(); 
+				    rs.next();
+				    n = rs.getInt("last_id");				   
+				    conn.commit();
+				    conn.setAutoCommit(true);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					//return 3; 
+				}
+		return n;
 	}
 	
 }
