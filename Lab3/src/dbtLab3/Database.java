@@ -123,6 +123,7 @@ public class Database {
 	}
 	
 	public Performance getPerformance(String movie, String date){
+		
 		String sql = "select sDate,mName,tName, (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ?";
 	      PreparedStatement ps = null;
 	      Performance p = null;
@@ -147,6 +148,26 @@ public class Database {
 		}
 		return p;
 	     
+	}
+	
+	public int bookSeat(String movieName, String date){
+		PreparedStatement ps = null;
+		String sql = "insert into Reservations(uName,sDate,mName) "
+		          + "values(?, ?, ?)";
+		  try {
+			//conn.setAutoCommit(false);
+			ps = conn.prepareStatement(sql);
+			ps.setString(1,CurrentUser.instance().getCurrentUserId());
+			ps.setString(2,date);
+			ps.setString(3,movieName);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			return 1; //User doesn't exist ...
+		}
+		 //conn.commit(); 
+		  //IF 2 -> no seats available ...ska lagga till.
+		return 0;
 	}
 	
 }

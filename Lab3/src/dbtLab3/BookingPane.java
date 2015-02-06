@@ -70,7 +70,8 @@ public class BookingPane extends BasicPane {
 	 * The total number of fields.
 	 */
 	private static final int NBR_FIELDS = 4;
-
+	
+	
 	/**
 	 * Create the booking pane.
 	 * 
@@ -247,11 +248,11 @@ public class BookingPane extends BasicPane {
 			String date = dateList.getSelectedValue();
 			/* --- insert own code here --- */
 			clearFields();
-			Performance p = db.getPerformance(movieName, date);
-			fields[MOVIE_NAME].setText(p.getmName());
-			fields[PERF_DATE].setText(p.getsDate());
-			fields[THEATER_NAME].setText(p.gettName());
-			fields[FREE_SEATS].setText(p.getFreeSeats());
+			Performance show = db.getPerformance(movieName, date);
+			fields[MOVIE_NAME].setText(show.getmName());
+			fields[PERF_DATE].setText(show.getsDate());
+			fields[THEATER_NAME].setText(show.gettName());
+			fields[FREE_SEATS].setText(show.getFreeSeats());
 		}
 	}
 
@@ -268,7 +269,9 @@ public class BookingPane extends BasicPane {
 		 *            The event object (not used).
 		 */
 		public void actionPerformed(ActionEvent e) {
+			clearMessage(); //rensar medd dar nere.
 			if (nameList.isSelectionEmpty() || dateList.isSelectionEmpty()) {
+				displayMessage("No movie and date are selected :(");
 				return;
 			}
 			if (!CurrentUser.instance().isLoggedIn()) {
@@ -278,6 +281,18 @@ public class BookingPane extends BasicPane {
 			String movieName = nameList.getSelectedValue();
 			String date = dateList.getSelectedValue();
 			/* --- insert own code here --- */
+			int n = db.bookSeat(movieName, date);
+			// 2 = error no seats
+			if (n == 2) {
+				displayMessage("No seats availible :(");
+			
+			// 1 = error no seats
+			}else if(n ==1){
+				displayMessage("User doesn't exist.");				
+			}else{
+				displayMessage("Your reservation is done! :)");				
+			}
+			return;
 		}
 	}
 }
