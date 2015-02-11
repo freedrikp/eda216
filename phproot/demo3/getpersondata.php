@@ -1,8 +1,8 @@
 <?php
 $host = "puccini.cs.lth.se";
-$username = "xxx";
-$password = "yyy";
-$database = "xxx";
+$username = "db16";
+$password = "fredjon";
+$database = "db16";
 
 $conn = new PDO("mysql:host=$host;dbname=$database", $username, $password);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -6,7 +6,7 @@
 	$number = $_REQUEST['number'];
 	if (is_numeric($number)) {
 		if ($number >= 0) {
-			print "The square root of $number is ";
+			print "The square rooooooooooooooooooooooooooot of $number is ";
 			print sqrt($number);
 		} else {
 			print "The number must be >= 0.";
