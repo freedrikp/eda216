@@ -72,141 +72,166 @@ public class Database {
 	}
 
 	/* --- insert own code here --- */
-	public ArrayList<String> getMovies(){
-	      String sql = "select mName from Movies";
-	      PreparedStatement ps = null;
-	      ArrayList<String> movies = new ArrayList<String>();
+	public ArrayList<String> getMovies() {
+		String sql = "select mName from Movies";
+		PreparedStatement ps = null;
+		ArrayList<String> movies = new ArrayList<String>();
 		try {
 			ps = conn.prepareStatement(sql);
-		      ResultSet rs = ps.executeQuery();
-		      
-		      while (rs.next()){
-		    	 movies.add(rs.getString("mName"));
-		      }
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				movies.add(rs.getString("mName"));
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-		      try {
-		          ps.close();
-		      } catch (SQLException e2) {
-		          // ... can do nothing if things go wrong here
-		      }
+			try {
+				ps.close();
+			} catch (SQLException e2) {
+				// ... can do nothing if things go wrong here
+			}
 		}
 		return movies;
-	     
+
 	}
-	
-	public ArrayList<String> getDates(String movie){
+
+	public ArrayList<String> getDates(String movie) {
 		String sql = "select sDate from Shows where mName=?";
-	      PreparedStatement ps = null;
-	      ArrayList<String> dates = new ArrayList<String>();
+		PreparedStatement ps = null;
+		ArrayList<String> dates = new ArrayList<String>();
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, movie);
-		    ResultSet rs = ps.executeQuery();  
-		    while (rs.next()){
-		    	 dates.add(rs.getString("sDate"));
-		    }
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				dates.add(rs.getString("sDate"));
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-		      try {
-		          ps.close();
-		      } catch (SQLException e2) {
-		          // ... can do nothing if things go wrong here
-		      }
+			try {
+				ps.close();
+			} catch (SQLException e2) {
+				// ... can do nothing if things go wrong here
+			}
 		}
 		return dates;
-	     
+
 	}
-	
-	public Performance getPerformance(String movie, String date){
-		
+
+	public Performance getPerformance(String movie, String date) {
+
 		String sql = "select sDate,mName,tName, (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ?";
-	      PreparedStatement ps = null;
-	      Performance p = null;
+		PreparedStatement ps = null;
+		Performance p = null;
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1,date);
+			ps.setString(1, date);
 			ps.setString(2, movie);
-		    ResultSet rs = ps.executeQuery(); 
-		    rs.next();
-		    p = new Performance(rs.getString("sDate"),rs.getString("mName"),rs.getString("tName"),rs.getInt("freeSeats"));
-		   
-		    
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			p = new Performance(rs.getString("sDate"), rs.getString("mName"),
+					rs.getString("tName"), rs.getInt("freeSeats"));
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-		      try {
-		          ps.close();
-		      } catch (SQLException e2) {
-		          // ... can do nothing if things go wrong here
-		      }
+			try {
+				ps.close();
+			} catch (SQLException e2) {
+				// ... can do nothing if things go wrong here
+			}
 		}
 		return p;
-	     
+
 	}
-	
-	public int bookSeat(String movieName, String date){
+
+	public int bookSeat(String movieName, String date) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String freeSeatsSql = "select (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ? for update";
 		try {
 			conn.setAutoCommit(false);
 			ps = conn.prepareStatement(freeSeatsSql);
-			ps.setString(1,date);
+			ps.setString(1, date);
 			ps.setString(2, movieName);
-			rs = ps.executeQuery(); 
+			rs = ps.executeQuery();
 			rs.next();
-			if(Integer.parseInt(rs.getString("freeSeats")) <= 0) return -2; // No seats available
+			if (Integer.parseInt(rs.getString("freeSeats")) <= 0)
+				return -2; // No seats available
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e2) {
+				// ... can do nothing if things go wrong here
+			}
 		}
-		
+
 		String sql = "insert into Reservations(uName,sDate,mName) "
-		          + "values(?, ?, ?)";
-		  try {
+				+ "values(?, ?, ?)";
+		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1,CurrentUser.instance().getCurrentUserId());
-			ps.setString(2,date);
-			ps.setString(3,movieName);
+			ps.setString(1, CurrentUser.instance().getCurrentUserId());
+			ps.setString(2, date);
+			ps.setString(3, movieName);
+			int nbrRows = ps.executeUpdate();
+			if (nbrRows == 0){
+				conn.rollback();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1; // User doesn't exist ...
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e2) {
+				// ... can do nothing if things go wrong here
+			}
+		}
+		sql = "update Shows " + "set nbrBooked = nbrBooked+1 "
+				+ "where mName = ? " + "and sDate = ?";
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, movieName);
+			ps.setString(2, date);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return -1; //User doesn't exist ...
+			return -3; // update error ...
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e2) {
+				// ... can do nothing if things go wrong here
+			}
 		}
-		  sql = "update Shows "
-          + "set nbrBooked = nbrBooked+1 "
-          + "where mName = ? "
-          + "and sDate = ?";
-		  try {
+		int n = 0;
+		sql = "select last_insert_id() as last_id " + "from Reservations";
+		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1,movieName);
-			ps.setString(2,date);
-			ps.executeUpdate();
+			rs = ps.executeQuery();
+			rs.next();
+			n = rs.getInt("last_id");
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return -3; //update error ...
+			// return 3;
+		} finally {
+			try {
+				conn.setAutoCommit(true);
+				ps.close();
+			} catch (SQLException e2) {
+				// ... can do nothing if things go wrong here
+			}
 		}
-		  int n = 0;
-		  sql = "select last_insert_id() as last_id "
-		          + "from Reservations";
-				  try {
-					ps = conn.prepareStatement(sql);
-					rs = ps.executeQuery(); 
-				    rs.next();
-				    n = rs.getInt("last_id");				   
-				    conn.commit();
-				    conn.setAutoCommit(true);
-				} catch (SQLException e) {
-					e.printStackTrace();
-					//return 3; 
-				}
 		return n;
 	}
-	
+
 }
