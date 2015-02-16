@@ -136,9 +136,16 @@ class Database {
 		$results = $this->executeQuery($sql, array($date, $movie));
 		
 		foreach($results as $result){
-			$stuff[] = $result[];
+			$sDate = $result['sDate'];
+			$mName = $result['mName'];
+			$theater = $result['tName'];
+			$freeSeats = $result['freeSeats'];
 		}
-		return $stuff; 
+		$show['sDate'] = $sDate;
+		$show['mName'] = $mName;
+		$show['tName'] = $theater;
+		$show['freeSeats'] = $freeSeats;
+		return $show; 
 	}
 }
 ?>
