@@ -92,9 +92,8 @@ class Database {
 	 */
 	private function executeUpdate($query, $param = null) {
 		try {
-			$stmt = $this->$conn->prepare($query);
+			$stmt = $this->conn->prepare($query);
   			$stmt->execute($param);
-  			$result = $stmt->fetchAll();
   			$count = $stmt->rowCount();
   		} catch (PDOException $e) {
 			$error = "*** Internal error: " . $e->getMessage() . "<p>" . $query;
@@ -179,29 +178,33 @@ class Database {
 
 		if ($freeSeats <= 0){
 			//$conn->rollback();
-			return -1;
+			return -2;
 		}
 		$sql = "insert into Reservations(uName,sDate,mName) values(?, ?, ?)";
 		$count = $this->executeUpdate($sql, array($user, $show['sDate'], $show['mName']));
 		if ($count != 1){
 			//$conn->rollback();
-			return -1;
+			return -3;
 		}
 		$sql = "update Shows set nbrBooked = nbrBooked+1 where mName = ? and sDate = ?";
 		$count = $this->executeUpdate($sql, array($show['mName'], $show['sDate']));
 		if ($count != 1){
 			//$conn->rollback();
-			return -1;
+			return -4;
 		}
+		//$sql = "select last_insert_id() as last from Reservations";
+		//$results = $this->executeQuery($sql);
+		//$count = count($results);
 		$sql = "select last_insert_id() as last_id from Reservations";
 		$results = $this->executeQuery($sql);
-		if ($c == 1){
-			foreach ($results as $result){
-				$rNbr = $result['last_id'];
-			}
+		$count = count($results);
+		if($count >= 0){
+		foreach($results as $result){
+			$rNbr = $result['last_id'];
+		}
 		}else{
 			//$conn->rollback();
-			return -1;
+			return -5;
 		}
 		//$conn->commit();
 		return $rNbr;

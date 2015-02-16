@@ -5,9 +5,7 @@
 	$db = $_SESSION['db'];
 	$userId = $_SESSION['userId'];
 	$db->openConnection();
-	//$movieName = $_SESSION['movieName'];
-	//$sDate = $_SESSION['sDate'];
-	$rNbr = $db->bookTicket($_SESSION['show'],$userId);//$movieName, $sDate, $userId
+	$rNbr = $db->bookTicket($_SESSION['show'],$userId);
 	$db->closeConnection();
 ?>
 
@@ -18,8 +16,12 @@
 	if ($rNbr > -1){
 		print "One ticket booked. Booking number: ".$rNbr; 
 	}else {
-		print "Could not book ticket.";
+		echo "<font color='red'>Could not book ticket </font>". $rNbr;
 	}
 	?> 
+	<p>
+	<form method=post action="booking1.php">		
+		<input type=submit value="Make a new reservation">
+	</form>
 </body>
 </html>
