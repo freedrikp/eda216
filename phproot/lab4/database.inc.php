@@ -185,7 +185,7 @@ class Database {
 			//$conn->rollback();
 			return -1;
 		}
-		$sql = "update Shows " + "set nbrBooked = nbrBooked+1 where mName = ? " + "and sDate = ?";
+		$sql = "update Shows set nbrBooked = nbrBooked+1 where mName = ? and sDate = ?";
 		$count = $this->executeUpdate($sql,array($movie, $date));
 		if ($count != 1){
 			//$conn->rollback();
