@@ -28,6 +28,7 @@
 	<br>
 	Free seats: <?php print $show['freeSeats'] ?>
 	<p>
+		<?php if($show['error'] == 1) echo "<font color='red'> Selected performance NOT possible</font>"; ?>
 	<form method=post action="booking4.php">		
 		<input type=submit value="Book ticket">
 	</form>

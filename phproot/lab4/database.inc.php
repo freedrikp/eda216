@@ -134,17 +134,23 @@ class Database {
 	public function getPerformance($movie, $date){
 		$sql = "select sDate,mName,tName, (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ?";
 		$results = $this->executeQuery($sql, array($date, $movie));
-		
-		foreach($results as $result){
-			$sDate = $result['sDate'];
-			$mName = $result['mName'];
-			$theater = $result['tName'];
-			$freeSeats = $result['freeSeats'];
+		$c = count($results);
+		if($c == 1){ 
+		 foreach($results as $result){
+		 	$sDate = $result['sDate'];
+		 	$mName = $result['mName'];
+		 	$theater = $result['tName'];
+		 	$freeSeats = $result['freeSeats'];
 		}
 		$show['sDate'] = $sDate;
 		$show['mName'] = $mName;
 		$show['tName'] = $theater;
 		$show['freeSeats'] = $freeSeats;
+		$show['c'] = $c;
+		}else
+		{
+			$show['error'] = 1;
+		}
 		return $show; 
 	}
 }
