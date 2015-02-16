@@ -5,9 +5,9 @@
 	$db = $_SESSION['db'];
 	$userId = $_SESSION['userId'];
 	$db->openConnection();
-	$movieName = $_SESSION['movieName'];
-	$sDate = $_SESSION['sDate'];
-	$rNbr = $db->bookTicket($movieName, $sDate, $userId);
+	//$movieName = $_SESSION['movieName'];
+	//$sDate = $_SESSION['sDate'];
+	$rNbr = $db->bookTicket($_SESSION['show'],$userId);//$movieName, $sDate, $userId
 	$db->closeConnection();
 ?>
 

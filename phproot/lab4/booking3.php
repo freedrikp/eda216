@@ -7,9 +7,8 @@
 	$db->openConnection();
 	$movieName = $_SESSION['movieName'];
 	$sDate = $_POST['sDate'];
-	$_SESSION['sDate'] = $sDate;
 	$show = $db->getPerformance($movieName, $sDate);
-	//$_SESSION['show'] = $show;
+	$_SESSION['show'] = $show;
 	$db->closeConnection();
 ?>
 

@@ -92,7 +92,7 @@ class Database {
 	 */
 	private function executeUpdate($query, $param = null) {
 		try {
-			$stmt = $conn->prepare($query);
+			$stmt = $this->$conn->prepare($query);
   			$stmt->execute($param);
   			$result = $stmt->fetchAll();
   			$count = $stmt->rowCount();
@@ -163,10 +163,10 @@ class Database {
 		return $show; 
 	}
 
-	public function bookTicket($movie, $date, $user){
+	public function bookTicket($show, $user){//$movie, $date, $user
 		$sql = "select (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ? for update";
 		//$conn->beginTransaction();
-		$results = $this->executeQuery($sql, array($date, $movie));
+		$results = $this->executeQuery($sql, array($show['sDate'], $show['mName']));
 		$count = count($results);
 		if ($count == 1){
 			foreach ($results as $result){
@@ -182,13 +182,13 @@ class Database {
 			return -1;
 		}
 		$sql = "insert into Reservations(uName,sDate,mName) values(?, ?, ?)";
-		$count = $this->executeUpdate($sql,array($user, $date, $movie));
+		$count = $this->executeUpdate($sql, array($user, $show['sDate'], $show['mName']));
 		if ($count != 1){
 			//$conn->rollback();
 			return -1;
 		}
 		$sql = "update Shows set nbrBooked = nbrBooked+1 where mName = ? and sDate = ?";
-		$count = $this->executeUpdate($sql,array($movie, $date));
+		$count = $this->executeUpdate($sql, array($show['mName'], $show['sDate']));
 		if ($count != 1){
 			//$conn->rollback();
 			return -1;
