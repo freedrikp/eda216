@@ -5,34 +5,15 @@
 	$db = $_SESSION['db'];
 	$userId = $_SESSION['userId'];
 	$db->openConnection();
-	
-	$movieNames = $db->getMovieNames();
+	$movieName = $_SESSION['movieName'];
+	$sDate = $_SESSION['sDate'];
+	$rNbr = $db->bookTicket($movieName, $sDate, $userId);
 	$db->closeConnection();
 ?>
 
 <html>
-<head><title>Booking 1</title><head>
-<body><h1>Booking 1</h1>
-	Current user: <?php print $userId ?>
-	<p>
-	Movies showing:
-	<p>
-	<form method=post action="booking2.php">
-		<select name="movieName" size=10>
-		<?php
-			$first = true;
-			foreach ($movieNames as $name) {
-				if ($first) {
-					print "<option selected>";
-					$first = false;
-				} else {
-					print "<option>";
-				}
-				print $name;
-			}
-		?>
-		</select>		
-		<input type=submit value="Select movie">
-	</form>
+<head><title>Booking 4</title><head>
+<body><h1>Booking 4</h1>
+	One ticket booked. Booking number: <?php print $rNbr; ?> 
 </body>
 </html>

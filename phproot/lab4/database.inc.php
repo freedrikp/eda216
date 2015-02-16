@@ -91,7 +91,16 @@ class Database {
 	 * @return The number of affected rows
 	 */
 	private function executeUpdate($query, $param = null) {
-		// ...
+		try {
+			$stmt = $conn->prepare($query);
+  			$stmt->execute($param);
+  			$result = $stmt->fetchAll();
+  			$count = $stmt->rowCount();
+  		} catch (PDOException $e) {
+			$error = "*** Internal error: " . $e->getMessage() . "<p>" . $query;
+			die($error);
+		}
+		return $count;
 	}
 	
 	/**
@@ -152,6 +161,48 @@ class Database {
 			$show['error'] = 1;
 		}
 		return $show; 
+	}
+
+	public function bookTicket($movie, $date, $user){
+		$sql = "select (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ? for update";
+		//$conn->beginTransaction();
+		$results = $this->executeQuery($sql, array($date, $movie));
+		$c = count($results);
+		if ($c == 1){
+			foreach ($results as $result){
+				$freeSeats = $result['freeSeats'];
+			}
+		}else{
+			return -1;
+		}
+
+		if ($freeSeats <= 0){
+			return -1;
+		}
+		$sql = "insert into Reservations(uName,sDate,mName) values(?, ?, ?)";
+		$count = $this->executeUpdate($sql,array($user, $date, $movie));
+		if ($count != 1){
+			//$conn->rollback();
+			return -1;
+		}
+		$sql = "update Shows " + "set nbrBooked = nbrBooked+1 where mName = ? " + "and sDate = ?";
+		$count = $this->executeUpdate($sql,array($movie, $date));
+		if ($count != 1){
+			//$conn->rollback();
+			return -1;
+		}
+		$sql = "select last_insert_id() as last_id from Reservations";
+		$results = $this->executeQuery($sql);
+		if ($c == 1){
+			foreach ($results as $result){
+				$rNbr = $result['last_id'];
+			}
+		}else{
+			return -1;
+		}
+		//$conn->commit();
+		return $rNbr;
+		
 	}
 }
 ?>
