@@ -167,16 +167,18 @@ class Database {
 		$sql = "select (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ? for update";
 		//$conn->beginTransaction();
 		$results = $this->executeQuery($sql, array($date, $movie));
-		$c = count($results);
-		if ($c == 1){
+		$count = count($results);
+		if ($count == 1){
 			foreach ($results as $result){
 				$freeSeats = $result['freeSeats'];
 			}
 		}else{
+			//$conn->rollback();
 			return -1;
 		}
 
 		if ($freeSeats <= 0){
+			//$conn->rollback();
 			return -1;
 		}
 		$sql = "insert into Reservations(uName,sDate,mName) values(?, ?, ?)";
@@ -198,6 +200,7 @@ class Database {
 				$rNbr = $result['last_id'];
 			}
 		}else{
+			//$conn->rollback();
 			return -1;
 		}
 		//$conn->commit();

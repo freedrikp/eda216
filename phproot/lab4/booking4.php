@@ -14,6 +14,12 @@
 <html>
 <head><title>Booking 4</title><head>
 <body><h1>Booking 4</h1>
-	One ticket booked. Booking number: <?php print $rNbr; ?> 
+	<?php
+	if ($rNbr > -1){
+		print "One ticket booked. Booking number: ".$rNbr; 
+	}else {
+		print "Could not book ticket.";
+	}
+	?> 
 </body>
 </html>
