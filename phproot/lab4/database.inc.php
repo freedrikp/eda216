@@ -192,13 +192,10 @@ class Database {
 			//$conn->rollback();
 			return -4;
 		}
-		//$sql = "select last_insert_id() as last from Reservations";
-		//$results = $this->executeQuery($sql);
-		//$count = count($results);
-		$sql = "select last_insert_id() as last_id from Reservations";
+		$sql = "select last_insert_id() as last_id";
 		$results = $this->executeQuery($sql);
 		$count = count($results);
-		if($count >= 0){
+		if($count == 1){
 		foreach($results as $result){
 			$rNbr = $result['last_id'];
 		}
