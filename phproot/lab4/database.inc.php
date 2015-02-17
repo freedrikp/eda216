@@ -164,7 +164,7 @@ class Database {
 
 	public function bookTicket($show, $user){//$movie, $date, $user
 		$sql = "select (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ? for update";
-		//$conn->beginTransaction();
+		//$this->$conn->beginTransaction();
 		$results = $this->executeQuery($sql, array($show['sDate'], $show['mName']));
 		$count = count($results);
 		if ($count == 1){
@@ -203,7 +203,7 @@ class Database {
 			//$conn->rollback();
 			return -5;
 		}
-		//$conn->commit();
+		//$this->$conn->commit();
 		return $rNbr;
 		
 	}
