@@ -164,7 +164,8 @@ class Database {
 
 	public function bookTicket($show, $user){//$movie, $date, $user
 		$sql = "select (capacity-nbrBooked) as freeSeats from Shows natural join Theaters where sDate = ? and mName = ? for update";
-		//$this->$conn->beginTransaction();
+		$this->conn->beginTransaction();		
+//$this->$conn->beginTransaction();
 		$results = $this->executeQuery($sql, array($show['sDate'], $show['mName']));
 		$count = count($results);
 		if ($count == 1){
@@ -172,23 +173,27 @@ class Database {
 				$freeSeats = $result['freeSeats'];
 			}
 		}else{
-			//$conn->rollback();
+			$this->conn->rollBack();
+			//conn->rollback();
 			return -1;
 		}
 
 		if ($freeSeats <= 0){
+			$this->conn->rollBack();
 			//$conn->rollback();
 			return -2;
 		}
 		$sql = "insert into Reservations(uName,sDate,mName) values(?, ?, ?)";
 		$count = $this->executeUpdate($sql, array($user, $show['sDate'], $show['mName']));
 		if ($count != 1){
+			$this->conn->rollBack();
 			//$conn->rollback();
 			return -3;
 		}
 		$sql = "update Shows set nbrBooked = nbrBooked+1 where mName = ? and sDate = ?";
 		$count = $this->executeUpdate($sql, array($show['mName'], $show['sDate']));
 		if ($count != 1){
+			$this->conn->rollBack();
 			//$conn->rollback();
 			return -4;
 		}
@@ -200,9 +205,11 @@ class Database {
 			$rNbr = $result['last_id'];
 		}
 		}else{
+			$this->conn->rollBack();
 			//$conn->rollback();
 			return -5;
 		}
+		$this->conn->commit();
 		//$this->$conn->commit();
 		return $rNbr;
 		
