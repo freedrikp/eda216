@@ -106,6 +106,8 @@ class Database {
 	 * *** Add functions ***
 	 */
 
-	
+	public function getRecipes(){
+		
+	}
 }
 ?>
