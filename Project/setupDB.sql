@@ -27,7 +27,7 @@ create table IngredientsInRecipes (
 	ingredientName varchar(30),
 	recipeName	varchar(30),
 	ingredientAmount integer,
-	primary key (ingredientName,recipeName)
+	primary key (ingredientName,recipeName),
 	foreign key (ingredientName) references IngredientsInStock(ingredientName),
 	foreign key (recipeName) references Recipes(recipeName)
 );
@@ -103,7 +103,7 @@ insert into IngredientsInRecipes values('Roasted, chopped nuts','Nut ring',225);
 insert into IngredientsInRecipes values('Fine-ground nuts','Nut cookie',750);
 insert into IngredientsInRecipes values('Ground, roasted nuts','Nut cookie',625);
 insert into IngredientsInRecipes values('Bread crumbs','Nut cookie',125);
-insert into IngredientsInRecipes values('Suger','Nut cookie',375);
+insert into IngredientsInRecipes values('Sugar','Nut cookie',375);
 insert into IngredientsInRecipes values('Egg whites','Nut cookie',350);
 insert into IngredientsInRecipes values('Chocolate','Nut cookie',50);
 insert into IngredientsInRecipes values('Marzipan','Amneris',750);
