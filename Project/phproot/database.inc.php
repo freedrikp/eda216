@@ -105,12 +105,20 @@ class Database {
 	/*
 	 * *** Add functions ***
 	 */
-
 	public function getRecipes(){
 		$sql = "select recipeName from Recipes";
 		$rows = $this->executeQuery($sql);
 		foreach ($rows as $row) {
 			$result[] = $row['recipeName'];
+		}
+		return $result;
+	}
+
+	public function getPallet(){
+		$sql = "select PalletId from Pallets";
+		$rows = $this->executeQuery($sql);
+		foreach ($rows as $row) {
+			$result[] = $row['timeMade'];
 		}
 		return $result;
 	}
