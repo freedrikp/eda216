@@ -107,7 +107,12 @@ class Database {
 	 */
 
 	public function getRecipes(){
-		
+		$sql = "select recipeName from Recipes";
+		$rows = $this->executeQuery($sql);
+		foreach ($rows as $row) {
+			$result[] = $row['recipeName'];
+		}
+		return $result;
 	}
 }
 ?>
