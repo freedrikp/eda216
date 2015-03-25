@@ -5,31 +5,21 @@
 	$db = $_SESSION['db'];
 	$db->openConnection();
 	
-	$recipes = $db->getRecipes();
+	$recipe = $_POST['recipe'];
+	$palletAmount = floatval($_POST['palletAmount']);
+
+	$palletsProduced = $db->producePallets($recipe,$palletAmount);
+	
 	$db->closeConnection();
 ?>
 
 <html>
-<head><title>Produce Cookies 1</title><head>
-<body><h1>Produce Cookies 1</h1>
-	Select recipe:
-	<p>
-	<form method=post action="produce2.php">
-		<select name="recipe" size=10>
+<head><title>Produce Cookies 2</title><head>
+<body><h1>Produce Cookies 2</h1>
 		<?php
-			$first = true;
-			foreach ($recipes as $name) {
-				if ($first) {
-					print "<option selected>";
-					$first = false;
-				} else {
-					print "<option>";
-				}
-				print $name;
-			}
+		foreach ($palletsProduced as $pallet) {
+				print $pallet."<p>";
+			}	
 		?>
-		</select>		
-		<input type=submit value="Select recipe">
-	</form>
 </body>
 </html>

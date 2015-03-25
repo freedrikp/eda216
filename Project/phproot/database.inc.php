@@ -122,5 +122,15 @@ class Database {
 		}
 		return $result;
 	}
+
+	public function producePallets($recipe,$palletAmount){
+		// $this->conn->beginTransaction();
+		$sql = "select ingredientName,ingredientAmount from IngredientsInRecipes where recipeName = ?";
+		$rows = $this->executeQuery($sql,array($recipe));
+		foreach ($rows as $row) {
+			$result[] = $row['ingredientAmount'];
+		}
+		return $result;
+	}
 }
 ?>

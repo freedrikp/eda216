@@ -28,8 +28,13 @@
 				print $name;
 			}
 		?>
-		</select>		
-		<input type=submit value="Select recipe">
+		</select>
+		<p>
+		Select the amount of pallets to produce:
+		<p>
+		<input type="number" name="palletAmount" value="1">	
+		<p>
+		<input type=submit value="Produce Pallets">
 	</form>
 </body>
 </html>
