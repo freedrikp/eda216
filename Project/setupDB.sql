@@ -38,7 +38,7 @@ create table Customers (
 );
 create table Orders (
 	orderId integer auto_increment,
-	deliveryTime date,
+	deliveryTime timestamp,
 	customerName varchar(40),
 	customerAddress	varchar(40),
 	primary key (orderId),
@@ -54,7 +54,7 @@ create table RecipesInOrders (
 );
 create table Pallets (
 	palletId integer auto_increment,
-	timeMade date,
+	timeMade timestamp,
 	blocked boolean,
 	inFreezer boolean,
 	recipeName	varchar(30),
@@ -63,7 +63,7 @@ create table Pallets (
 );
 create table DeliveredPallets (
 	palletId integer,
-	timeOfDelivery date,
+	timeOfDelivery timestamp,
 	orderId integer,
 	primary key (palletId),
 	foreign key (palletId) references Pallets(palletId),
@@ -77,25 +77,25 @@ insert into Recipes values('Amneris',100);
 insert into Recipes values('Tango',100);
 insert into Recipes values('Almond delight',100);
 insert into Recipes values('Berliner',100);
-insert into IngredientsInStock values('Flour',5000);
-insert into IngredientsInStock values('Butter',5000);
-insert into IngredientsInStock values('Icing sugar',5000);
-insert into IngredientsInStock values('Roasted, chopped nuts',5000);
-insert into IngredientsInStock values('Fine-ground nuts',5000);
-insert into IngredientsInStock values('Ground, roasted nuts',5000);
-insert into IngredientsInStock values('Bread crumbs',5000);
-insert into IngredientsInStock values('Sugar',5000);
-insert into IngredientsInStock values('Egg whites',5000);
-insert into IngredientsInStock values('Chocolate',5000);
-insert into IngredientsInStock values('Marzipan',5000);
-insert into IngredientsInStock values('Eggs',5000);
-insert into IngredientsInStock values('Potato starch',5000);
-insert into IngredientsInStock values('Wheat flour',5000);
-insert into IngredientsInStock values('Sodium bicarbonate',5000);
-insert into IngredientsInStock values('Vanilla',5000);
-insert into IngredientsInStock values('Chopped almonds',5000);
-insert into IngredientsInStock values('Cinnamon',5000);
-insert into IngredientsInStock values('Vanilla sugar',5000);
+insert into IngredientsInStock values('Flour',500000);
+insert into IngredientsInStock values('Butter',500000);
+insert into IngredientsInStock values('Icing sugar',500000);
+insert into IngredientsInStock values('Roasted, chopped nuts',500000);
+insert into IngredientsInStock values('Fine-ground nuts',500000);
+insert into IngredientsInStock values('Ground, roasted nuts',500000);
+insert into IngredientsInStock values('Bread crumbs',500000);
+insert into IngredientsInStock values('Sugar',500000);
+insert into IngredientsInStock values('Egg whites',500000);
+insert into IngredientsInStock values('Chocolate',500000);
+insert into IngredientsInStock values('Marzipan',500000);
+insert into IngredientsInStock values('Eggs',500000);
+insert into IngredientsInStock values('Potato starch',500000);
+insert into IngredientsInStock values('Wheat flour',500000);
+insert into IngredientsInStock values('Sodium bicarbonate',500000);
+insert into IngredientsInStock values('Vanilla',500000);
+insert into IngredientsInStock values('Chopped almonds',500000);
+insert into IngredientsInStock values('Cinnamon',500000);
+insert into IngredientsInStock values('Vanilla sugar',500000);
 insert into IngredientsInRecipes values('Flour','Nut ring',450);
 insert into IngredientsInRecipes values('Butter','Nut ring',450);
 insert into IngredientsInRecipes values('Icing sugar','Nut ring',190);

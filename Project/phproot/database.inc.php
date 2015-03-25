@@ -125,13 +125,50 @@ class Database {
 
 
 	public function producePallets($recipe,$palletAmount){
-		// $this->conn->beginTransaction();
-		$sql = "select ingredientName,ingredientAmount from IngredientsInRecipes where recipeName = ?";
+		$this->conn->beginTransaction();
+		$nbrCookies = 5400*$palletAmount;
+		$sql = "select nbrCookies from Recipes where recipeName = ?";
+		$cookiesOfRecipe = $this->executeQuery($sql,array($recipe))[0]['nbrCookies'];
+		$timesOfRecipe = $nbrCookies/$cookiesOfRecipe;
+
+		$sql = "select ingredientName,ingredientAmount,stockAmount from IngredientsInRecipes natural join IngredientsInStock where recipeName = ? for update";
 		$rows = $this->executeQuery($sql,array($recipe));
 		foreach ($rows as $row) {
-			$result[] = $row['ingredientAmount'];
+			$amounts[$row['ingredientName']] = $row['ingredientAmount']*$timesOfRecipe;
+			if ($amounts[$row['ingredientName']] > $row['stockAmount']){
+				$this->conn->rollBack();
+				print "FAIL!!!";
+				return array();
+			}
 		}
-		return $result;
+
+		$sql = "update IngredientsInStock set stockAmount=stockAmount - ? where IngredientName = ?";
+		foreach ($amounts as $key => $value){
+			$count = $this->executeUpdate($sql,array($value,$key));
+			if ($count <= 0){
+				$this->conn->rollBack();
+				print "FAIL!!!";
+				return array();
+			}
+		}
+
+		for ($i = 0; $i < $palletAmount; $i++){
+			$sql = "insert into Pallets(blocked,inFreezer,recipeName) values (false,true,?)";
+			$count = $this->executeUpdate($sql,array($recipe));
+			if ($count <= 0){
+					$this->conn->rollBack();
+					print "FAIL!!!";
+					return array();
+			}
+			$sql = "select last_insert_id() as last_id";
+			$pallets[] = $this->executeQuery($sql)[0]['last_id'];
+			
+		}
+
+
+		$this->conn->commit();
+
+		return $pallets;
 	}
 
 	public function getBlockedPallets($n){

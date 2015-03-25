@@ -6,7 +6,7 @@
 	$db->openConnection();
 	
 	$recipe = $_POST['recipe'];
-	$palletAmount = floatval($_POST['palletAmount']);
+	$palletAmount = intval($_POST['palletAmount']);
 
 	$palletsProduced = $db->producePallets($recipe,$palletAmount);
 	
@@ -16,9 +16,11 @@
 <html>
 <head><title>Produce Cookies 2</title><head>
 <body><h1>Produce Cookies 2</h1>
+	Pallets have been created with the following id:s and are now in the freezer:
+	<p>
 		<?php
-		foreach ($palletsProduced as $pallet) {
-				print $pallet."<p>";
+		foreach ($palletsProduced as $id) {
+			print $id."<br>";
 			}	
 		?>
 </body>
