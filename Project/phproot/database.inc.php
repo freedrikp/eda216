@@ -142,8 +142,8 @@ class Database {
 			}
 		}
 
-		$sql = "update IngredientsInStock set stockAmount=stockAmount - ? where IngredientName = ?";
 		foreach ($amounts as $key => $value){
+			$sql = "update IngredientsInStock set stockAmount=stockAmount - ? where IngredientName = ?";
 			$count = $this->executeUpdate($sql,array($value,$key));
 			if ($count <= 0){
 				$this->conn->rollBack();
