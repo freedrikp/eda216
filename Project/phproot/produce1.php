@@ -36,5 +36,7 @@
 		<p>
 		<input type=submit value="Produce Pallets">
 	</form>
+	<p>
+	<a href="index.php">Back to homepage!</a>
 </body>
 </html>

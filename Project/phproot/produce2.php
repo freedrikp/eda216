@@ -23,5 +23,7 @@
 			print $id."<br>";
 			}	
 		?>
+		<p>
+	<a href="index.php">Back to homepage!</a>
 </body>
 </html>
