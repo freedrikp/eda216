@@ -19,7 +19,7 @@
 ?>
 <html>
 <head><title>Unblocking</title><head>
-<body>
+<body align="center">
 	<h1>Unblocking</h1>
 	<?php
 	if ($rNbr > -1){

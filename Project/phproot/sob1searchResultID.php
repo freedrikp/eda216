@@ -10,7 +10,7 @@
 ?>
 <html>
 <head><title>Search Result</title><head>
-<body>
+<body align="center">
 	<h1>Search Result</h1>
 	<?php
 	if (count($pallets) > -1){

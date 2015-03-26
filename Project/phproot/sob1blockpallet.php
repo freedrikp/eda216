@@ -17,7 +17,7 @@
 ?>
 <html>
 <head><title>Blocking</title><head>
-<body>
+<body align="center">
 	<h1>Blocking</h1>
 	<?php
 	if ($rNbr > -1){

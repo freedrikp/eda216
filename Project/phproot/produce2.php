@@ -15,7 +15,7 @@
 
 <html>
 <head><title>Produce Cookies 2</title><head>
-<body><h1>Produce Cookies 2</h1>
+<body align="center"><h1>Produce Cookies 2</h1>
 	Pallets have been created with the following id:s and are now in the freezer:
 	<p>
 		<?php
@@ -24,6 +24,6 @@
 			}	
 		?>
 		<p>
-	<a href="index.php">Back to homepage!</a>
+	<a href="index.php">Back to the homepage</a>
 </body>
 </html>

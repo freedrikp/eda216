@@ -196,7 +196,7 @@ class Database {
 	}
 
 	public function blockBetweenPallet($fromDate, $toDate){
-		$sql = "update Pallets set blocked = true where timeMade > ? and timeMade < ?";
+		$sql = "update Pallets set blocked = true where timeMade >= ? and timeMade <= ?";
 		$this->conn->beginTransaction();
 		$count = $this->executeUpdate($sql, array($fromDate, $toDate));
 		if ($count < 0){
@@ -208,7 +208,7 @@ class Database {
 	}
 
 	public function unblockBetweenPallet($fromDate, $toDate){
-		$sql = "update Pallets set blocked = false where timeMade > ? and timeMade < ?";
+		$sql = "update Pallets set blocked = false where timeMade >= ? and timeMade <= ?";
 		$this->conn->beginTransaction();
 		$count = $this->executeUpdate($sql, array($fromDate, $toDate));
 		if ($count < 0){

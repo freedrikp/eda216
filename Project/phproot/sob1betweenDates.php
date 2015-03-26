@@ -16,7 +16,7 @@
 ?>
 <html>
 <head><title>Blocking dates</title><head>
-<body>
+<body align="center">
 	<h1>Blocking dates</h1>
 	<?php
 	if ($rNbr > 0){

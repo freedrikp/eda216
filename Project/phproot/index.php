@@ -18,13 +18,13 @@
 <head>
 <title>Krusty Kookies AB</title>
 </head>
-<body>
+<body align="center">
 
 <h1 align="center">Krusty Kookies AB</h1>
-<h2 align="center">Choose your desired action</h2>
-
+<h2 align="center">Choose your desired action:</h2>
+<p>
 <a href="produce1.php">Produce Cookies</a>
-<br>
+<p>
 <a href="sob1.php">Search and Block Pallets</a>
 
 </body>
