@@ -6,13 +6,6 @@
 <body>
 	<h1>Search for Pallet</h1>
 	<p>
-	<form method=post action="sob1searchResultCustomer.php">
-		Enter a customer you want to see pallets for:<br>
-		<input type="text" name="searchCustomerName">
-		<br>
-		<input type=submit value="Search">
-	</form>
-	<p>
 	<form method=post action="sob1searchResultID.php">
 		Enter a palletID you want to see pallets for:<br>
 		<input type="number" name="searchPalletId">
