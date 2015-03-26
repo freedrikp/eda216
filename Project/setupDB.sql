@@ -38,7 +38,7 @@ create table Customers (
 );
 create table Orders (
 	orderId integer auto_increment,
-	deliveryTime timestamp,
+	deliveryTime timestamp default current_timestamp,
 	customerName varchar(40),
 	customerAddress	varchar(40),
 	primary key (orderId),
@@ -54,7 +54,7 @@ create table RecipesInOrders (
 );
 create table Pallets (
 	palletId integer auto_increment,
-	timeMade timestamp,
+	timeMade timestamp default current_timestamp,
 	blocked boolean,
 	inFreezer boolean,
 	recipeName	varchar(30),
@@ -63,7 +63,7 @@ create table Pallets (
 );
 create table DeliveredPallets (
 	palletId integer,
-	timeOfDelivery timestamp,
+	timeOfDelivery timestamp default current_timestamp,
 	orderId integer,
 	primary key (palletId),
 	foreign key (palletId) references Pallets(palletId),
