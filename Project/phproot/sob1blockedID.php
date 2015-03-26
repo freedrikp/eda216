@@ -9,7 +9,7 @@
 ?>
 <html>
 <head><title>Blocked Pallets</title><head>
-<body>
+<body align="center">
 	<h1>Blocked Pallets</h1>
 	</p>
 	Select palletID to unblock:
@@ -35,7 +35,8 @@
 
 			}
 		?>
-		</select>		
+		</select>
+		<p>		
 		<input type=submit value="Select pallet">
 	</form>
 	<p>

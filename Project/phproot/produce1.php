@@ -11,7 +11,7 @@
 
 <html>
 <head><title>Produce Cookies 1</title><head>
-<body><h1>Produce Cookies 1</h1>
+<body align="center"><h1>Produce Cookies 1</h1>
 	Select recipe:
 	<p>
 	<form method=post action="produce2.php">
@@ -37,6 +37,7 @@
 		<input type=submit value="Produce Pallets">
 	</form>
 	<p>
-	<a href="index.php">Back to homepage!</a>
+	<br>
+	<a href="index.php">Back to the homepage</a>
 </body>
 </html>

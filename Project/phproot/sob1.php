@@ -22,7 +22,7 @@
 
 <html>
 <head><title>Search and Block 1</title><head>
-<body><h1>Search and Block 1</h1>
+<body align="center"><h1>Search and Block 1</h1>
 	<p>
 		<a href="sob1blockedID.php">View blocked pallets</a>
 		<br>
@@ -33,22 +33,23 @@
 	<br>	
 	<p>
 	<form method=post action="sob1betweenDates.php">
-	Block/Unblock pallet(s) between: 
+	Block/Unblock pallet(s) between: <p>
 	<input type="datetime-local" name="fromDate">
 	-
 	<input type="datetime-local" name="toDate">
-	
+	<p>
 	<input type="radio" name="blocking" value=1 checked>Block
 	<input type="radio" name="blocking" value=0>Unblock
-	
+	<p>
 	<input type="submit" value="Execute">
 	</form>
 	<p>
 	<br>
+	<br>
 	<br>	
 	<form method=post action="sob1blockpallet.php">
 		Select pallet to BLOCK:
-		<br>
+		<p>
 		<select name="pallet_to_block" size=10>
 		<pre>
 		<?php
@@ -71,10 +72,12 @@
 			}
 		?>
 		
-		</select>		
+		</select>
+		<p>	
 		<input type=submit value="Block pallet">
 	</form>
 	<p>
+	<br>
 		<a href="index.php">Back to the homepage</a>
 </body>
 </html>

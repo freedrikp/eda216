@@ -9,7 +9,7 @@
 ?>
 <html>
 <head><title>Blocked Pallets</title><head>
-<body>
+<body align="center">
 	<h1>Blocked Pallets   -----------FUNKAR EJ ÄN----------</h1>
 	</p>
 	Select TimeMade to unblock:
