@@ -46,9 +46,9 @@
 	<p>
 	<br>
 	<br>	
-	Select time/date of pallet to BLOCK:
-	<p>
 	<form method=post action="sob1blockpallet.php">
+		Select pallet to BLOCK:
+		<br>
 		<select name="pallet_to_block" size=10>
 		<pre>
 		<?php
