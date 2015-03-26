@@ -26,23 +26,22 @@
 	<p>
 		<a href="sob1blockedID.php">View blocked pallets</a>
 		<br>
-		<!--
-		<a href="sob1blockedTimeMade.php">List Blocked Pallets by TimeMade - FUNKAR EJ</a>
-		-->
-		<br>
 		<a href="sob1search.php">Search for pallet(s)</a>
 		<br>
 	</p>
 	<br>
 	<br>	
 	<p>
-	<form action="sob1betweenDates.php">
-	Block pallets between: 
-	<input type="datetime-local" name="from">
+	<form method=post action="sob1betweenDates.php">
+	Block/Unblock pallet(s) between: 
+	<input type="datetime-local" name="fromDate">
 	-
-	<input type="datetime-local" name="to">
+	<input type="datetime-local" name="toDate">
 	
-	<input type="submit" value="Block pallets">
+	<input type="radio" name="blocking" value=1 checked>Block
+	<input type="radio" name="blocking" value=0>Unblock
+	
+	<input type="submit" value="Execute">
 	</form>
 	<p>
 	<br>

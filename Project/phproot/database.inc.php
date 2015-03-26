@@ -176,13 +176,6 @@ class Database {
 		return $rows;
 	}
 
-	public function findPalletCustomer($customerName){
-		$sql = "select * from DeliveredPallets natural join Orders where customerName like ?";
-		$rows = $this->executeQuery($sql, array($customerName));
-		
-		return $rows;
-	}
-
 	public function findPalletID($palletId){
 		$sql = "select * from Pallets where palletId = ?";
 		$rows = $this->executeQuery($sql, array($palletId));
@@ -201,6 +194,7 @@ class Database {
 		$this->conn->commit();
 		return $count;
 	}
+
 	public function blockBetweenPallet($fromDate, $toDate){
 		$sql = "update Pallets set blocked = true where timeMade > ? and timeMade < ?";
 		$this->conn->beginTransaction();
@@ -212,6 +206,19 @@ class Database {
 		$this->conn->commit();
 		return $count;
 	}
+
+	public function unblockBetweenPallet($fromDate, $toDate){
+		$sql = "update Pallets set blocked = false where timeMade > ? and timeMade < ?";
+		$this->conn->beginTransaction();
+		$count = $this->executeUpdate($sql, array($fromDate, $toDate));
+		if ($count < 0){
+			$this->conn->rollBack();
+			return -1;
+		}
+		$this->conn->commit();
+		return $count;
+	}
+
 	public function unblockPallet($palletId){
 		$sql = "update Pallets set blocked = false where palletId = ?";
 		$this->conn->beginTransaction();
