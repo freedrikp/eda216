@@ -7,8 +7,22 @@
 	<h1>Search for Pallet</h1>
 	<p>
 	<form method=post action="sob1searchResultID.php">
-		Enter a palletID you want to see information about:<br>
-		<input type="number" name="searchPalletId">
+		<p>
+		Choose search form:<br>
+		<input type="radio" name="search_option" value=0 checked>PalletID
+		<input type="radio" name="search_option" value=1>Recipe
+		<input type="radio" name="search_option" value=2>Time Interval
+		<p>
+		<br>
+		Enter palletID or recipe: 
+		<input type="text" name="search_text">
+		
+		<p>
+		<br>
+		Search for pallets produced between: <br>
+		<input type="datetime-local" name="searchfromDate">
+		-
+		<input type="datetime-local" name="searchtoDate">
 		<p>
 		<input type=submit value="Search">
 	</form>

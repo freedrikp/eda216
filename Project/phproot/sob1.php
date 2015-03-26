@@ -25,10 +25,9 @@
 <body align="center"><h1>Search and Block 1</h1>
 	<p>
 		<a href="sob1blockedID.php">View blocked pallets</a>
-		<br>
+		<p>
 		<a href="sob1search.php">Search for pallet(s)</a>
-		<br>
-	</p>
+		<p>
 	<br>
 	<br>	
 	<p>
