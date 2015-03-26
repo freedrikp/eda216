@@ -54,10 +54,9 @@
 						echo "<td align='center'>FALSE</td>";
 					}
 
-
-					echo "<td align='center'></td>";
-					echo "<td align='center'></td>";
-					echo "<td align='center'></td>";
+					echo "<td align='center'>". $palletcolumn['deliveryTime'] ."</td>";
+					echo "<td align='center'>". $palletcolumn['customerName'] ."</td>";
+					echo "<td align='center'>". $palletcolumn['customerAddress'] ."</td>";
 					echo "</tr>";
 				}
 			
