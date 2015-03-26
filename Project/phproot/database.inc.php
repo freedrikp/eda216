@@ -179,7 +179,7 @@ class Database {
 	}
 
 	public function findPalletRecipe($recipe){
-		$sql = "select * from Pallets natural join (DeliveredPallets natural join Orders) where recipeName like ?";
+		$sql = "select * from Pallets left outer join (DeliveredPallets natural join Orders) on Pallets.palletId = DeliveredPallets.palletId where recipeName like ?";
 		$rows = $this->executeQuery($sql, array($recipe));
 		return $rows;
 	}

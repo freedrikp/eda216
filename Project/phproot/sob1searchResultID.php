@@ -25,6 +25,7 @@
 	}else {
 		echo "<font color='red'>No pallet found</font>";
 	}
+
 				echo "<table style='width:60%' border=1 align='center'>";
   				echo "<tr>";
    				echo "<th align='center'>PalletID</th>";
@@ -39,7 +40,7 @@
 
 				foreach ($pallets as $palletcolumn) {
 					echo "<tr>";
-					echo "<td align='center'>". $palletcolumn['palletId'] ."</td>";
+					echo "<td align='center'>". $palletcolumn[0] ."</td>";
 					echo "<td align='center'>". $palletcolumn['timeMade'] ."</td>";
 					echo "<td align='center'>". $palletcolumn['recipeName'] ."</td>";
 
