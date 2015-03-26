@@ -9,7 +9,7 @@
 	if($search_option == 0){
 		$pallets = $db->findPalletID($palletId);
 	}else if($search_option == 1){
-		$pallets = $db->findPalletRecipe($palletId."%");
+		$pallets = $db->findPalletRecipe($palletId ."%");
 	}else if($search_option == 2){
 		$pallets = $db->findPalletBetween($_POST['searchfromDate'],$_POST['searchtoDate']);
 	}

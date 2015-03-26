@@ -173,7 +173,7 @@ class Database {
 	}
 
 	public function findPalletID($palletId){
-		$sql = "select * from Pallets natural join (DeliveredPallets natural join Orders) where palletId = ?";
+		$sql = "select * from Pallets left outer join (DeliveredPallets natural join Orders) on Pallets.palletId = DeliveredPallets.palletId where Pallets.palletId = ?";
 		$rows = $this->executeQuery($sql, array($palletId));
 		return $rows;
 	}
@@ -185,7 +185,7 @@ class Database {
 	}
 
 	public function findPalletBetween($fromDate, $toDate){
-		$sql = "select * from Pallets natural join (DeliveredPallets natural join Orders) where timeMade >= ? and timeMade <= ?";
+		$sql = "select * from Pallets left outer join (DeliveredPallets natural join Orders) on Pallets.palletId = DeliveredPallets.palletId where timeMade >= ? and timeMade <= ?";
 		$rows = $this->executeQuery($sql, array($fromDate, $toDate));
 		return $rows;
 	}
