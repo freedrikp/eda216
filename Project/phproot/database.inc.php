@@ -114,15 +114,6 @@ class Database {
 		return $result;
 	}
 
-	public function getUnblockedPallets(){
-		$sql = "select timeMade from Pallets where blocked=false";
-		$rows = $this->executeQuery($sql);
-		foreach ($rows as $row) {
-			$result[] = $row['timeMade'];
-		}
-		return $result;
-	}
-
 
 	public function producePallets($recipe,$palletAmount){
 		$this->conn->beginTransaction();
@@ -171,43 +162,65 @@ class Database {
 		return $pallets;
 	}
 
-	public function getBlockedPallets($n){
-		if($n == 0){
-		$sql = "select PalletId from Pallets where blocked=true";
+	public function getBlockedPallets(){
+		$sql = "select * from Pallets where blocked=true order by timeMade";
 		$rows = $this->executeQuery($sql);
-		foreach ($rows as $row) {
-			$result[] = $row['PalletId'];
-		}
-		}else{
-		$sql = "select timeMade from Pallets where blocked=true";
-		$rows = $this->executeQuery($sql);
-		foreach ($rows as $row) {
-			$result[] = $row['timeMade'];
-		}
-		}
-		return $result;
+		
+		return $rows;
 	}
 
-	public function blockPallet($palletDate){
-		$sql = "update Pallets set blocked = true where timeMade = ?";
-		//s$this->conn->beginTransaction();
-		$count = $this->executeUpdate($sql, array($palletDate));
-		//if ($count != 1){
-		//	$this->conn->rollBack();
-		//	return -1;
-		//}
+	public function getUnblockedPallets(){
+		$sql = "select * from Pallets where blocked=false order by timeMade";
+		$rows = $this->executeQuery($sql);
+		
+		return $rows;
+	}
+
+	public function findPalletCustomer($customerName){
+		$sql = "select * from DeliveredPallets natural join Orders where customerName like ?";
+		$rows = $this->executeQuery($sql, array($customerName));
+		
+		return $rows;
+	}
+
+	public function findPalletID($palletId){
+		$sql = "select * from Pallets where palletId = ?";
+		$rows = $this->executeQuery($sql, array($palletId));
+		
+		return $rows;
+	}
+
+	public function blockPallet($palletId){
+		$sql = "update Pallets set blocked = true where palletId = ?";
+		$this->conn->beginTransaction();
+		$count = $this->executeUpdate($sql, array($palletId));
+		if ($count != 1){
+			$this->conn->rollBack();
+			return -1;
+		}
+		$this->conn->commit();
 		return $count;
 	}
-
+	public function blockBetweenPallet($fromDate, $toDate){
+		$sql = "update Pallets set blocked = true where timeMade > ? and timeMade < ?";
+		$this->conn->beginTransaction();
+		$count = $this->executeUpdate($sql, array($fromDate, $toDate));
+		if ($count < 0){
+			$this->conn->rollBack();
+			return -1;
+		}
+		$this->conn->commit();
+		return $count;
+	}
 	public function unblockPallet($palletId){
 		$sql = "update Pallets set blocked = false where palletId = ?";
-		//$this->conn->beginTransaction();
+		$this->conn->beginTransaction();
 		$count = $this->executeUpdate($sql, array($palletId));
-		//if ($count != 1){
-		//	$this->conn->rollBack();
-			//$conn->rollback();
-		//	return -1;
-		//}
+		if ($count != 1){
+			$this->conn->rollBack();
+			return -1;
+		}
+		$this->conn->commit();
 		return $count;
 	}
 

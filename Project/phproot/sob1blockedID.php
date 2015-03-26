@@ -18,14 +18,21 @@
 		<select name="pallet_to_unblock" size=10>
 		<?php
 			$first = true;
-			foreach ($pallets as $palletID) {
-				if ($first) {
-					print "<option selected>";
-					$first = false;
-				} else {
-					print "<option>";
-				}
-				print $palletID;
+			foreach ($pallets as $palletcolumn) {
+					
+					if ($first) {
+						print "<option selected>";
+						$first = false;
+					} else {
+						print "<option>";
+					}
+
+					print $palletcolumn['palletId'];
+					print "&nbsp;&nbsp;&nbsp;&nbsp;";
+					print $palletcolumn['timeMade'];
+					print "&nbsp;&nbsp;";
+					print $palletcolumn['recipeName'];
+
 			}
 		?>
 		</select>		

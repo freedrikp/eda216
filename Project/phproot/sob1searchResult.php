@@ -4,8 +4,8 @@
 	session_start();
 	$db = $_SESSION['db'];
 	$db->openConnection();
-	$customerName = $_POST['searchCustomerName'];
-	$pallets = $db->findPalletOfCustomer($customerName);
+	$customerName = $_POST['searchCustomerName'] . '%';
+	$pallets = $db->findPallet($customerName);
 	$db->closeConnection();
 ?>
 <html>
@@ -13,23 +13,24 @@
 <body>
 	<h1>Search Result</h1>
 	<?php
-	if ($rNbr > -1){
-		print "The pallet has been UNBLOCKED."; 
+	if (count($pallets) > -1){
+		print "Pallet(s) found:<br><br>"; 
 	}else {
-		echo "<font color='red'>No pallet(s) found</font>";
+		echo "<font color='red'>No pallet found</font>";
 	}
-	?> 
-<ol>
-		<?php
-			foreach ($pallets as $pallet) {
-				if ($first) {
-					echo "<li>";
-					print $pallet;
-					echo "</li>";
-			}
+
+				foreach ($pallets as $palletcolumn) {
+
+					print $palletcolumn['palletId'];
+					print "&nbsp;&nbsp;";
+					print $palletcolumn['timeMade'];
+					print "&nbsp;&nbsp;";
+					print $palletcolumn['recipeName'];
+					print "<br>";
+				}
+			
 		?>
-</ol>
-	<p>
+		<br>
 		<a href="sob1.php">Back to Search and Block 1</a>
 </body>
 </html>

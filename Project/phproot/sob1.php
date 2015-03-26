@@ -16,39 +16,66 @@
 *OCH SÖKA EFTER LEVERERADE PALLET TILL SPEC. KUND.
 *
 */
+
+
 ?>
 
 <html>
 <head><title>Search and Block 1</title><head>
 <body><h1>Search and Block 1</h1>
 	<p>
-		<a href="sob1blockedID.php">List Blocked Pallets by palletID</a>
+		<a href="sob1blockedID.php">View blocked pallets</a>
 		<br>
+		<!--
 		<a href="sob1blockedTimeMade.php">List Blocked Pallets by TimeMade - FUNKAR EJ</a>
+		-->
 		<br>
-		<a href="sob1search.php">Search for pallet - FUNKAR EJ</a>
+		<a href="sob1search.php">Search for pallet(s)</a>
 		<br>
 	</p>
+	<br>
+	<br>	
+	<p>
+	<form action="sob1betweenDates.php">
+	Block pallets between: 
+	<input type="datetime-local" name="from">
+	-
+	<input type="datetime-local" name="to">
+	
+	<input type="submit" value="Block pallets">
+	</form>
+	<p>
+	<br>
+	<br>	
 	Select time/date of pallet to BLOCK:
 	<p>
 	<form method=post action="sob1blockpallet.php">
 		<select name="pallet_to_block" size=10>
+		<pre>
 		<?php
 			$first = true;
-			foreach ($pallets as $palletDate) {
-				if ($first) {
-					print "<option selected>";
-					$first = false;
-				} else {
-					print "<option>";
-				}
-				print $palletDate;
+			foreach ($pallets as $palletcolumn) {
+					
+					if ($first) {
+						print "<option selected>";
+						$first = false;
+					} else {
+						print "<option>";
+					}
+
+					print $palletcolumn['palletId'];
+					print " - ";
+					print $palletcolumn['timeMade'];
+					print " - ";
+					print $palletcolumn['recipeName'];
+
 			}
 		?>
+		
 		</select>		
-		<input type=submit value="Select pallet">
+		<input type=submit value="Block pallet">
 	</form>
 	<p>
-		<a href="index.html">Back to the homepage</a>
+		<a href="index.php">Back to the homepage</a>
 </body>
 </html>

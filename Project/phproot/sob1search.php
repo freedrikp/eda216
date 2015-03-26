@@ -1,23 +1,22 @@
 <?php
-	require_once('database.inc.php');
-	
 	session_start();
-	$db = $_SESSION['db'];
-	$db->openConnection();
-	//$pallets = $db->getBlockedPallets(0);
-	$db->closeConnection();
 ?>
 <html>
 <head><title>Search for Pallet</title><head>
 <body>
 	<h1>Search for Pallet</h1>
-	</p>
-	Enter a customer you want to see pallets for:
 	<p>
-	<form method=post action="sob1searchResult.php">
-		Last name:<br>
+	<form method=post action="sob1searchResultCustomer.php">
+		Enter a customer you want to see pallets for:<br>
 		<input type="text" name="searchCustomerName">
-		<br><br>
+		<br>
+		<input type=submit value="Search">
+	</form>
+	<p>
+	<form method=post action="sob1searchResultID.php">
+		Enter a palletID you want to see pallets for:<br>
+		<input type="number" name="searchPalletId">
+		<br>
 		<input type=submit value="Search">
 	</form>
 	<p>

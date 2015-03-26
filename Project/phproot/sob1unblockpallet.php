@@ -1,12 +1,21 @@
 <?php
 	require_once('database.inc.php');
-	
+	function extract_numbers($string)
+	{
+	preg_match_all('/([\d]+)/', $string, $match);
+	return $match[0];
+	}
+
 	session_start();
 	$db = $_SESSION['db'];
 	$db->openConnection();
 	$pallet = $_POST['pallet_to_unblock'];
-	$rNbr = $db->unblockPallet($pallet);
+	$palletNbrs = extract_numbers($pallet);
+	$palletId = $palletNbrs[0];
+	$rNbr = $db->unblockPallet($palletId);
 	$db->closeConnection();
+
+	
 ?>
 <html>
 <head><title>Unblocking</title><head>
