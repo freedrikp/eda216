@@ -7,7 +7,7 @@
 	<h1>Search for Pallet</h1>
 	<p>
 	<form method=post action="sob1searchResultID.php">
-		Enter a palletID you want to see pallets for:<br>
+		Enter a palletID you want to see information about:<br>
 		<input type="number" name="searchPalletId">
 		<p>
 		<input type=submit value="Search">

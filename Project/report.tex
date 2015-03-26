@@ -37,9 +37,25 @@ In this project we were to develop a database system that handles production, or
 This report serves as documentation of our implementation. 
 
 \section{Requirements}
+Our database system can handle everything from ingrediences in the receipes to delivery of the cookies. 
+
+The pallets are registered in our database when entering the freezer. To identify every pallet each pallet has a unique ID. We can list the pallets and information about each pallet. The receipe of the cookies, when it is made, if it is in the freezer and if it is block. If the pallet it is blocked the cookies do not meet the quality standards and can not be delivered.
+
+When a new pallet is created the stock of the ingredients to make the receipe are updated to make sure the quantities of the ingredients in stock are correct. It is possible to check the amount of a ingredient in stock if needed.
+%(We can not view the amount of ingredients which where delivered) 
+% You are not able to change and add new receipes to our solution.
+%
+% Det har vi glömt.
+%
+% Visa info vid sökning: the contents of the pallet, the location of the pallet, if the pallet is delivered and in that case to whom, etc.
+% Behövs delivered pallets och order då...och utvidgad select i findPallet($palledId).
+%
 
 \section{System Outline}
 Our system uses MySQL as the database management system and our client interface is written in PHP for optimal portability. In PHP we have used PHP Data Object to interface with the MySQL server.
+
+
+More specific to the client interface, our program can create an order of a wanted receipe and an amount of pallets with the cookies made from the receipe. If a batch of cookies do not meet the quality standards, you are able to block the pallets that are affected. Either through the pallet id or through the receipe and the time which the batch was made. 
 
 \begin{description}
 \item{}
