@@ -8,7 +8,7 @@
 	<p>
 	<form method=post action="sob1searchResultID.php">
 		<p>
-		Choose search form:<br>
+		Search by entering:<br>
 		<input type="radio" name="search_option" value=0 checked>PalletID
 		<input type="radio" name="search_option" value=1>Recipe
 		<input type="radio" name="search_option" value=2>Time Interval
