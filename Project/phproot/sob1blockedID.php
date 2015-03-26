@@ -1,10 +1,25 @@
 <?php
 	require_once('database.inc.php');
+
+	function extract_numbers($string)
+	{
+	preg_match_all('/([\d]+)/', $string, $match);
+	return $match[0];
+	}
 	
 	session_start();
 	$db = $_SESSION['db'];
 	$db->openConnection();
-	$pallets = $db->getBlockedPallets(0);
+
+	$pallet = $_POST['pallet_to_unblock'];
+
+	if($pallet > 0){
+		$palletNbrs = extract_numbers($pallet);
+		$palletId = $palletNbrs[0];
+		$rNbr = $db->unblockPallet($palletId);
+	}
+
+	$pallets = $db->getBlockedPallets();
 	$db->closeConnection();
 ?>
 <html>
@@ -14,7 +29,7 @@
 	</p>
 	Select palletID to unblock:
 	<p>
-	<form method=post action="sob1unblockpallet.php">
+	<form method=post action="sob1blockedID.php">
 		<select name="pallet_to_unblock" size=10>
 		<?php
 			$first = true;
@@ -39,6 +54,14 @@
 		<p>		
 		<input type=submit value="Select pallet">
 	</form>
+	<p>
+	<?php
+	if ($rNbr == 1){
+		print "The pallet has been UNBLOCKED."; 
+	}else if($rNbr == -1){
+		echo "<font color='red'>Could not unblock pallet </font>";
+	}
+	?> 
 	<p>
 		<a href="sob1.php">Back to Search and Block 1</a>
 </body>

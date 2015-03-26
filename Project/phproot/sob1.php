@@ -1,9 +1,23 @@
 <?php
 	require_once('database.inc.php');
-	
+
+	function extract_numbers($string)
+		{
+		preg_match_all('/([\d]+)/', $string, $match);
+		return $match[0];
+		}
+
 	session_start();
 	$db = $_SESSION['db'];
 	$db->openConnection();
+	$pallet = $_POST['pallet_to_block'];
+	$rNbr = -1;
+
+	if($pallet > 0){
+	$palletNbrs = extract_numbers($pallet);
+	$palletId = $palletNbrs[0];
+	$rNbr = $db->blockPallet($palletId);
+	}
 	
 	$pallets = $db->getUnblockedPallets();
 	$db->closeConnection();
@@ -44,9 +58,8 @@
 	</form>
 	<p>
 	<br>
-	<br>
 	<br>	
-	<form method=post action="sob1blockpallet.php">
+	<form method=post action="sob1.php">
 		Select pallet to BLOCK:
 		<p>
 		<select name="pallet_to_block" size=10>
@@ -75,6 +88,14 @@
 		<p>	
 		<input type=submit value="Block pallet">
 	</form>
+	<p>
+	<?php
+	if ($rNbr > 0){
+		print "The pallet has been BLOCKED."; 
+	}else if($rNbr == 0){
+		echo "<font color='red'>Could not block pallet </font>";
+	}
+	?> 
 	<p>
 	<br>
 		<a href="index.php">Back to the homepage</a>

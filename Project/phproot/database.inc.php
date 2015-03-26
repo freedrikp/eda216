@@ -156,44 +156,37 @@ class Database {
 			
 		}
 
-
 		$this->conn->commit();
-
 		return $pallets;
 	}
 
 	public function getBlockedPallets(){
 		$sql = "select * from Pallets where blocked=true order by timeMade";
 		$rows = $this->executeQuery($sql);
-		
 		return $rows;
 	}
 
 	public function getUnblockedPallets(){
 		$sql = "select * from Pallets where blocked=false order by timeMade";
 		$rows = $this->executeQuery($sql);
-		
 		return $rows;
 	}
 
 	public function findPalletID($palletId){
-		$sql = "select * from Pallets where palletId = ?";
+		$sql = "select * from Pallets natural join (DeliveredPallets natural join Orders) where palletId = ?";
 		$rows = $this->executeQuery($sql, array($palletId));
-		
 		return $rows;
 	}
 
 	public function findPalletRecipe($recipe){
-		$sql = "select * from Pallets where recipeName like ?";
+		$sql = "select * from Pallets natural join (DeliveredPallets natural join Orders) where recipeName like ?";
 		$rows = $this->executeQuery($sql, array($recipe));
-		
 		return $rows;
 	}
 
 	public function findPalletBetween($fromDate, $toDate){
-		$sql = "select * from Pallets where timeMade >= ? and timeMade <= ?";
+		$sql = "select * from Pallets natural join (DeliveredPallets natural join Orders) where timeMade >= ? and timeMade <= ?";
 		$rows = $this->executeQuery($sql, array($fromDate, $toDate));
-		
 		return $rows;
 	}
 
