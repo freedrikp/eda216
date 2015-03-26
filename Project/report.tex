@@ -37,21 +37,22 @@ In this project we were to develop a database system that handles production, or
 This report serves as documentation of our implementation. 
 
 \section{Requirements}
-Our database system can handle everything from ingrediences in the receipes to delivery of the cookies. 
+Our database system can handle everything from ingrediences in the recipes to delivery of the cookies. 
 
-The pallets are registered in our database when entering the freezer. To identify every pallet each pallet has a unique ID. We can list the pallets and information about each pallet. The receipe of the cookies, when it is made, if it is in the freezer and if it is block. If the pallet it is blocked the cookies do not meet the quality standards and can not be delivered.
+When a new pallet is created the stock of the ingredients to make the recipe are updated to make sure the quantities of the ingredients in stock are correct.
 
-When a new pallet is created the stock of the ingredients to make the receipe are updated to make sure the quantities of the ingredients in stock are correct. It is possible to check the amount of a ingredient in stock if needed.
+The pallets are registered in our database when entering the freezer. To identify every pallet each pallet has a unique ID.
+We can show all kinds of information that is relevant about pallets through our search function. With this you can search for pallets by entering either pallet ID, recipe or the time when the pallet was produced.
 
-% Visa info vid sökning: the contents of the pallet, the location of the pallet, if the pallet is delivered and in that case to whom, etc.
-% Behövs delivered pallets och order då...och utvidgad select i findPallet($palledId).
-%
+If a batch of cookies do not meet the quality standards, you are able to block the pallets that are affected. Either through the pallet id or through the time which the batch was made. 
+
+
+
+% Du kan fylla på lite om order och production.
 
 \section{System Outline}
 Our system uses MySQL as the database management system and our client interface is written in PHP for optimal portability. In PHP we have used PHP Data Object to interface with the MySQL server.
 
-
-More specific to the client interface, our program can create an order of a wanted receipe and an amount of pallets with the cookies made from the receipe. If a batch of cookies do not meet the quality standards, you are able to block the pallets that are affected. Either through the pallet id or through the receipe and the time which the batch was made. 
 
 \begin{description}
 \item{}
@@ -143,6 +144,43 @@ create table DeliveredPallets (
 \end{Verbatim}
 
 \section{User Manual}
+\subsection{Setup}
+To setup the website you will need some sort of server application that allows PHP and mySQL. Set the directory of the server to the \"phproot\"-folder, so the server runs our website properly. Start the server and the website should be up and running.
+\subsection{Prodution}
+\subsubsection{Produce pallets}
+\begin{itemize}
+  \item Beginning on the homepage, click \"Produce Cookies\".
+  \item This is where you assemble the production. You can choose which recipe and the amount of pallets to produce. When you have chosen a recipe and an amount, click \"Produce Pallets\" to confirm the production.
+  \item Now the production is done and the pallets are put in the freezer. The pallet id of the pallets are shown on the page.
+\end{itemize}
+
+\subsection{Search and Block}
+\subsubsection{Search information about pallet}
+\begin{itemize}
+	\item Click the \"Search and Block Pallets\" link.
+	\item Next, click the \"Search for pallet(s)\" link.
+	\item On the new page, you can choose the way you want to search.
+	\item Then either, enter a pallet id or recipe in the text field, or enter a time interval.
+	\item Click \"Search\" when you are done.
+	\item A new page with the search result will appear, where you can read information about the found pallets.
+\end{itemize}
+\subsubsection{Block pallets}
+\begin{itemize}
+	\item Click the \"Search and Block Pallets\" link.
+	\item Here you can choose how to block pallets. Either through entering a time interval, marking the \"Block\"-radio button and click \"Execute\". 
+	\item A new page will appear to confirm the blocking.
+	\item The other way is to select the pallet in the list and then click \"Block pallet\".
+	\item A message under the list appears to confirm the blocking.
+\end{itemize}
+\subsubsection{Unblock pallets}
+\begin{itemize}
+	\item Click the \"Search and Block Pallets\" link.
+	\item Here you can choose how to unblock pallets. Either through entering a time interval, marking the \"Unblock\"-radio button and click \"Execute\". 
+	\item A new page will appear to confirm the unblocking.
+	\item The other way is to click on \"View blocked pallets\".
+	\item Here you can select the pallet you wish to unblock in the list and then click \"Block pallet\".
+	\item A message under the list appears to confirm the unblocking.
+\end{itemize}
 %\begin{thebibliography}{1}
 %\bibitem{wikipedia}
 %http://en.wikipedia.org
