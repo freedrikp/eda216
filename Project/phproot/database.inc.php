@@ -183,6 +183,20 @@ class Database {
 		return $rows;
 	}
 
+	public function findPalletRecipe($recipe){
+		$sql = "select * from Pallets where recipeName like ?";
+		$rows = $this->executeQuery($sql, array($recipe));
+		
+		return $rows;
+	}
+
+	public function findPalletBetween($fromDate, $toDate){
+		$sql = "select * from Pallets where timeMade >= ? and timeMade <= ?";
+		$rows = $this->executeQuery($sql, array($fromDate, $toDate));
+		
+		return $rows;
+	}
+
 	public function blockPallet($palletId){
 		$sql = "update Pallets set blocked = true where palletId = ?";
 		$this->conn->beginTransaction();

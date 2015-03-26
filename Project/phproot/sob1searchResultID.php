@@ -4,8 +4,15 @@
 	session_start();
 	$db = $_SESSION['db'];
 	$db->openConnection();
-	$palletId = $_POST['searchPalletId'];
-	$pallets = $db->findPalletID($palletId);
+	$search_option = $_POST['search_option'];
+	$palletId = $_POST['search_text'];
+	if($search_option == 0){
+		$pallets = $db->findPalletID($palletId);
+	}else if($search_option == 1){
+		$pallets = $db->findPalletRecipe($palletId."%");
+	}else if($search_option == 2){
+		$pallets = $db->findPalletBetween($_POST['searchfromDate'],$_POST['searchtoDate']);
+	}
 	$db->closeConnection();
 ?>
 <html>
