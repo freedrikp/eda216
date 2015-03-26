@@ -21,7 +21,7 @@
 	<h1>Search Result</h1>
 	<?php
 	if (count($pallets) > -1){
-		print "Pallet found:<br><br>"; 
+		print "Pallet(s) found:<br><br>"; 
 	}else {
 		echo "<font color='red'>No pallet found</font>";
 	}
