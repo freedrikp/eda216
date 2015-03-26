@@ -19,7 +19,7 @@
 		
 		<p>
 		<br>
-		Search for pallets produced between: <br>
+		Pallets produced between: <br>
 		<input type="datetime-local" name="searchfromDate">
 		-
 		<input type="datetime-local" name="searchtoDate">
