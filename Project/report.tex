@@ -3,6 +3,7 @@
 \usepackage[english]{babel}
 \usepackage{moreverb}
 \usepackage{graphicx}
+\usepackage{fancyvrb}
 \title{Project Report \\ EDA216 Database Technology \\ Krusty Kookies AB}
 \date{\today}
 \author{Fredrik Paulsson \\ dat11fp1@student.lu.se \and Jonas Jacobsson \\ dat11jja@student.lu.se}
@@ -38,10 +39,10 @@ This report serves as documentation of our implementation.
 \section{Requirements}
 
 \section{System Outline}
-Our system uses MySQL as the database management system and our client interface is written in PHP for optimal portability.
+Our system uses MySQL as the database management system and our client interface is written in PHP for optimal portability. In PHP we have used PHP Data Object to interface with the MySQL server.
 
 \begin{description}
-
+\item{}
 \end{description}
 \section{E/R Model}
 \begin{figure}[!h]
@@ -62,9 +63,72 @@ Our system uses MySQL as the database management system and our client interface
 \texttt{Pallets(\underline{palletId},timeMade,blocked,inFreezer,\textit{recipeName})} \\
 \texttt{DeliveredPallets(\underline{\textit{palletId}},timeOfDelivery,\textit{orderId})}
 
+In these relations undelrined attributes are keys and attributes written in italics are foreign keys.
+
+There exist no nontrivial functional dependencies except the ones whose left hand sides are the keys for each relation. Thus there exist no functional dependency that can break the BCNF condition.
 
 \section{SQL Statements}
-
+The following SQL statements have been issued to the MySQL DBMS in order to create our database.
+\begin{Verbatim}
+create table IngredientsInStock (
+	ingredientName varchar(30),
+	stockAmount integer,
+	primary key (ingredientName)
+);
+create table Recipes (
+	recipeName varchar(30),
+	nbrCookies integer,
+	primary key (recipeName)
+);
+create table IngredientsInRecipes (
+	ingredientName varchar(30),
+	recipeName varchar(30),
+	ingredientAmount integer,
+	primary key (ingredientName,recipeName),
+	foreign key (ingredientName) references 
+		IngredientsInStock(ingredientName),
+	foreign key (recipeName) references Recipes(recipeName)
+);
+create table Customers (
+	customerName varchar(40),
+	customerAddress varchar(40),
+	primary key (customerName,customerAddress)
+);
+create table Orders (
+	orderId integer auto_increment,
+	deliveryTime timestamp default current_timestamp,
+	customerName varchar(40),
+	customerAddress varchar(40),
+	primary key (orderId),
+	foreign key (customerName,customerAddress) references 
+		Customers(customerName,customerAddress)
+);
+create table RecipesInOrders (
+	recipeName varchar(30),
+	orderId integer,
+	palletAomunt integer,
+	primary key (recipeName,orderId),
+	foreign key (recipeName) references Recipes(recipeName),
+	foreign key (orderId) references Orders(orderId)
+);
+create table Pallets (
+	palletId integer auto_increment,
+	timeMade timestamp default current_timestamp,
+	blocked boolean,
+	inFreezer boolean,
+	recipeName varchar(30),
+	primary key (palletId),
+	foreign key (recipeName) references Recipes(recipeName)
+);
+create table DeliveredPallets (
+	palletId integer,
+	timeOfDelivery timestamp default current_timestamp,
+	orderId integer,
+	primary key (palletId),
+	foreign key (palletId) references Pallets(palletId),
+	foreign key (orderId) references Orders(orderId)
+);
+\end{Verbatim}
 
 \section{User Manual}
 %\begin{thebibliography}{1}
