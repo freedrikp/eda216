@@ -5,9 +5,9 @@
 \usepackage{graphicx}
 \usepackage{fancyvrb}
 \usepackage{float}
-\title{Project Report \\ EDA216 Database Technology \\ Krusty Kookies AB}
+\title{Project Report \\ \emph{Krusty Kookies Sweden AB} \\ EDA216 Database Technology}
 \date{\today}
-\author{Fredrik Paulsson \\ dat11fp1@student.lu.se \and Jonas Jacobsson \\ dat11jja@student.lu.se}
+\author{Fredrik Paulsson \\ D11 \\ dat11fp1@student.lu.se \and Jonas Jacobsson \\ D11 \\ dat11jja@student.lu.se}
 %\setcounter{secnumdepth}{5}
 %\setcounter{tocdepth}{5}
 \begin{document}
@@ -54,14 +54,26 @@ The only client interface that we have developed are the one handling production
 
 
 
-% Du kan fylla på lite om order och production. CHECK
+% Du kan fylla på lite om order och production. CHECK/Fredrik
 
 \section{System Outline}
-Our system uses MySQL as the database management system and our client interface is written in PHP for optimal portability. In PHP we have used PHP Data Object to interface with the MySQL server. 
+Our system uses MySQL as the database management system and our client interface is written in PHP for optimal portability. In PHP we have used PHP Data Object to interface with the MySQL server.
+
+The following files make up the client part of our solution:
 
 
 \begin{description}
-\item[\texttt{file.php}]{Information abotu file}
+\item[\texttt{index.php}] This is the home page of our implementation. This file also intiates communication with the database for the session.
+\item[\texttt{cannotConnect.html}] This is simply an HTML file which is displayed if a connection the databse cannot be made.
+\item[\texttt{mysql\_connect\_data.inc}] This file contains the login credentials to access the database.
+\item[\texttt{database.inc.php}] This file contains all operations that are made to the database. Every other file uses this class to access the database.
+\item[\texttt{produce1.php}] This file prompts the user for a recipe and amount of pallets to produce of that recipe.
+\item[\texttt{produce2.php}] This file produces the pallets chosen in \texttt{produce1.php} and displays their ID:s.
+\item[\texttt{sob1.php}] This file contains links to the search and unblock interfaces and the forms used to block/unblock pallets.
+\item[\texttt{sob1search.php}] This file contains the forms used to search for pallets. 
+\item[\texttt{sob1SearchResultID.php}] This file searches for the pallets and displays the results.
+\item[\texttt{sob1betweenDates.php}] This file blocks/unblocks pallets that are made between given dates.
+\item[\texttt{sob1blockedID.php}] This file shows the blocked pallets and also presents the user with the option of unblocking these pallets.
 \end{description}
 \section{E/R Model}
 The UML diagram that displays our E/R model is shown in figure \ref{uml}.
