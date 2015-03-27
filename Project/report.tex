@@ -4,6 +4,7 @@
 \usepackage{moreverb}
 \usepackage{graphicx}
 \usepackage{fancyvrb}
+\usepackage{float}
 \title{Project Report \\ EDA216 Database Technology \\ Krusty Kookies AB}
 \date{\today}
 \author{Fredrik Paulsson \\ dat11fp1@student.lu.se \and Jonas Jacobsson \\ dat11jja@student.lu.se}
@@ -39,26 +40,33 @@ This report serves as documentation of our implementation.
 \section{Requirements}
 Our database system can handle everything from ingrediences in the recipes to delivery of the cookies. 
 
-When a new pallet is created the stock of the ingredients to make the recipe are updated to make sure the quantities of the ingredients in stock are correct.
+When a new pallet is created the stock of the ingredients to make the recipe are updated to make sure the quantities of the ingredients in stock are correct. It is possible to create several pallets of a given cookie at the same time.
 
-The pallets are registered in our database when entering the freezer. To identify every pallet each pallet has a unique ID.
+The pallets are registered in our database when entering the freezer. However in this pilot implementation the pallets are assumed to be in the freezer immediately after they have been produced. To identify every pallet each pallet has a unique ID.
+
 We can show all kinds of information that is relevant about pallets through our search function. With this you can search for pallets by entering either pallet ID, recipe or the time when the pallet was produced.
 
 If a batch of cookies do not meet the quality standards, you are able to block the pallets that are affected. Either through the pallet id or through the time which the batch was made. 
 
+The database also handles customers and orders, each order has a unique ID to be able to easily identify them. The database also contains information about which pallets that are delivered and these pallets are associated to an order. For each order there exist information about the amount of pallets of different recipes that are to be delivered. However our database does not include a constraint that if delivered pallets associated with an order actually contains the correct type of cookies to be delivered or the amount of pallets to be delivered. We have assumed that is done either manually at the factory or by the client program that interfaces to the database and handles orders and deliveries.
+
+The only client interface that we have developed are the one handling production, searching and blocking of pallets.
 
 
-% Du kan fylla på lite om order och production.
+
+% Du kan fylla på lite om order och production. CHECK
 
 \section{System Outline}
-Our system uses MySQL as the database management system and our client interface is written in PHP for optimal portability. In PHP we have used PHP Data Object to interface with the MySQL server.
+Our system uses MySQL as the database management system and our client interface is written in PHP for optimal portability. In PHP we have used PHP Data Object to interface with the MySQL server. 
 
 
 \begin{description}
-\item{}
+\item[\texttt{file.php}]{Information abotu file}
 \end{description}
 \section{E/R Model}
-\begin{figure}[!h]
+The UML diagram that displays our E/R model is shown in figure \ref{uml}.
+
+\begin{figure}[t]
 \centering
 \includegraphics[scale=0.7]{projectUMLFinal.png}
 \caption{UML diagram for the E/R model.}
@@ -66,8 +74,11 @@ Our system uses MySQL as the database management system and our client interface
 \end{figure}
 
 \section{Relations}
+The relations that we have produced from our E/R model is follows:
 
-\texttt{IngredientsInStock(\underline{ingredientName},stockAmount)} \\
+\vspace{0.5cm}
+
+\noindent \texttt{IngredientsInStock(\underline{ingredientName},stockAmount)} \\
 \texttt{Recipes(\underline{recipeName},nbrCookies)} \\
 \texttt{IngredientsInRecipe(\underline{\textit{ingredientName},\textit{recipeName}},ingredientAmount)} \\
 \texttt{Customers(\underline{customerName,customerAddress})} \\
@@ -76,9 +87,10 @@ Our system uses MySQL as the database management system and our client interface
 \texttt{Pallets(\underline{palletId},timeMade,blocked,inFreezer,\textit{recipeName})} \\
 \texttt{DeliveredPallets(\underline{\textit{palletId}},timeOfDelivery,\textit{orderId})}
 
-In these relations undelrined attributes are keys and attributes written in italics are foreign keys.
+\vspace{0.5cm}
+\noindent In these relations underlined attributes are keys and attributes written in italics are foreign keys.
 
-There exist no nontrivial functional dependencies except the ones whose left hand sides are the keys for each relation. Thus there exist no functional dependency that can break the BCNF condition.
+There exist no nontrivial functional dependencies except the ones whose left hand sides are the keys for each relation. Thus there exist no functional dependency that can break the BCNF condition for any relation.
 
 \section{SQL Statements}
 The following SQL statements have been issued to the MySQL DBMS in order to create our database.
@@ -145,40 +157,40 @@ create table DeliveredPallets (
 
 \section{User Manual}
 \subsection{Setup}
-To setup the website you will need some sort of server application that allows PHP and mySQL. Set the directory of the server to the \"phproot\"-folder, so the server runs our website properly. Start the server and the website should be up and running.
+To setup the website you will need some sort of server application that allows PHP and MySQL. Set the directory of the server to the \emph{phproot}-folder, so the server runs our website properly. Start the server and the website should be up and running.
 \subsection{Prodution}
 \subsubsection{Produce pallets}
 \begin{itemize}
-  \item Beginning on the homepage, click \"Produce Cookies\".
-  \item This is where you assemble the production. You can choose which recipe and the amount of pallets to produce. When you have chosen a recipe and an amount, click \"Produce Pallets\" to confirm the production.
-  \item Now the production is done and the pallets are put in the freezer. The pallet id of the pallets are shown on the page.
+  \item Beginning on the homepage, click \emph{Produce Cookies}.
+  \item This is where you assemble the production. You can choose which recipe and the amount of pallets to produce. When you have chosen a recipe and an amount, click \emph{Produce Pallets} to confirm the production.
+  \item Now the production is done and the pallets are put in the freezer. The pallet ID of the pallets are shown on the page.
 \end{itemize}
 
 \subsection{Search and Block}
 \subsubsection{Search information about pallet}
 \begin{itemize}
-	\item Click the \"Search and Block Pallets\" link.
-	\item Next, click the \"Search for pallet(s)\" link.
+	\item Click the \emph{Search and Block Pallets} link.
+	\item Next, click the \emph{Search for pallet(s)} link.
 	\item On the new page, you can choose the way you want to search.
 	\item Then either, enter a pallet id or recipe in the text field, or enter a time interval.
-	\item Click \"Search\" when you are done.
+	\item Click \emph{Search} when you are done.
 	\item A new page with the search result will appear, where you can read information about the found pallets.
 \end{itemize}
 \subsubsection{Block pallets}
 \begin{itemize}
-	\item Click the \"Search and Block Pallets\" link.
-	\item Here you can choose how to block pallets. Either through entering a time interval, marking the \"Block\"-radio button and click \"Execute\". 
+	\item Click the \emph{Search and Block Pallets} link.
+	\item Here you can choose how to block pallets. Either through entering a time interval, marking the \emph{Block}-radio button and click \emph{Execute} 
 	\item A new page will appear to confirm the blocking.
-	\item The other way is to select the pallet in the list and then click \"Block pallet\".
+	\item The other way is to select the pallet in the list and then click \emph{Block pallet}
 	\item A message under the list appears to confirm the blocking.
 \end{itemize}
 \subsubsection{Unblock pallets}
 \begin{itemize}
-	\item Click the \"Search and Block Pallets\" link.
-	\item Here you can choose how to unblock pallets. Either through entering a time interval, marking the \"Unblock\"-radio button and click \"Execute\". 
+	\item Click the \emph{Search and Block Pallets} link.
+	\item Here you can choose how to unblock pallets. Either through entering a time interval, marking the \emph{Unblock}-radio button and click \emph{Execute} 
 	\item A new page will appear to confirm the unblocking.
-	\item The other way is to click on \"View blocked pallets\".
-	\item Here you can select the pallet you wish to unblock in the list and then click \"Block pallet\".
+	\item The other way is to click on \emph{View blocked pallets}
+	\item Here you can select the pallet you wish to unblock in the list and then click \emph{Block pallet}
 	\item A message under the list appears to confirm the unblocking.
 \end{itemize}
 %\begin{thebibliography}{1}
