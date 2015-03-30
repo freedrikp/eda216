@@ -35,10 +35,10 @@
 \section{Introduction}
 In this project we were to develop a database system that handles production, orders and deliveries of cookies in the company Krusty Kookies Sweden AB. In order to develop the database system we have to produce an E/R model of the database, create relations corresponding to the E/R model and finally implement those relations in a database management system. In the project we also had to implement a client program that interfaces to our database. This client program only handles production of cookies and blocking of pallets.
 
-This report serves as documentation of our implementation. 
+This report serves as documentation of our implementation.
 
 \section{Requirements}
-Our database system can handle everything from ingrediences in the recipes to delivery of the cookies. 
+Our database system can handle everything from ingrediences in the recipes to delivery of the cookies.
 
 When a new pallet is created the stock of the ingredients to make the recipe are updated to make sure the quantities of the ingredients in stock are correct. It is possible to create several pallets of a given cookie at the same time.
 
@@ -46,7 +46,7 @@ The pallets are registered in our database when entering the freezer. However in
 
 We can show all kinds of information that is relevant about pallets through our search function. With this you can search for pallets by entering either pallet ID, recipe or the time when the pallet was produced.
 
-If a batch of cookies do not meet the quality standards, you are able to block the pallets that are affected. Either through the pallet id or through the time which the batch was made. 
+If a batch of cookies do not meet the quality standards, you are able to block the pallets that are affected. Either through the pallet id or through the time which the batch was made.
 
 The database also handles customers and orders, each order has a unique ID to be able to easily identify them. The database also contains information about which pallets that are delivered and these pallets are associated to an order. For each order there exist information about the amount of pallets of different recipes that are to be delivered. However our database does not include a constraint that if delivered pallets associated with an order actually contains the correct type of cookies to be delivered or the amount of pallets to be delivered. We have assumed that is done either manually at the factory or by the client program that interfaces to the database and handles orders and deliveries.
 
@@ -70,7 +70,7 @@ The following files make up the client part of our solution:
 \item[\texttt{produce1.php}] This file prompts the user for a recipe and amount of pallets to produce of that recipe.
 \item[\texttt{produce2.php}] This file produces the pallets chosen in \texttt{produce1.php} and displays their ID:s.
 \item[\texttt{sob1.php}] This file contains links to the search and unblock interfaces and the forms used to block/unblock pallets.
-\item[\texttt{sob1search.php}] This file contains the forms used to search for pallets. 
+\item[\texttt{sob1search.php}] This file contains the forms used to search for pallets.
 \item[\texttt{sob1SearchResultID.php}] This file searches for the pallets and displays the results.
 \item[\texttt{sob1betweenDates.php}] This file blocks/unblocks pallets that are made between given dates.
 \item[\texttt{sob1blockedID.php}] This file shows the blocked pallets and also presents the user with the option of unblocking these pallets.
@@ -122,7 +122,7 @@ create table IngredientsInRecipes (
 	recipeName varchar(30),
 	ingredientAmount integer,
 	primary key (ingredientName,recipeName),
-	foreign key (ingredientName) references 
+	foreign key (ingredientName) references
 		IngredientsInStock(ingredientName),
 	foreign key (recipeName) references Recipes(recipeName)
 );
@@ -137,7 +137,7 @@ create table Orders (
 	customerName varchar(40),
 	customerAddress varchar(40),
 	primary key (orderId),
-	foreign key (customerName,customerAddress) references 
+	foreign key (customerName,customerAddress) references
 		Customers(customerName,customerAddress)
 );
 create table RecipesInOrders (
@@ -169,7 +169,7 @@ create table DeliveredPallets (
 
 \section{User Manual}
 \subsection{Setup}
-To setup the website you will need some sort of server application that allows PHP and MySQL. Set the directory of the server to the \emph{phproot}-folder, so the server runs our website properly. Start the server and the website should be up and running.
+To setup the website you will need some sort of server application that allows PHP. Set the directory of the server to the \emph{phproot}-folder, so the server runs our website properly. Start the server and the website should be up and running.
 \subsection{Prodution}
 \subsubsection{Produce pallets}
 \begin{itemize}
@@ -191,7 +191,7 @@ To setup the website you will need some sort of server application that allows P
 \subsubsection{Block pallets}
 \begin{itemize}
 	\item Click the \emph{Search and Block Pallets} link.
-	\item Here you can choose how to block pallets. Either through entering a time interval, marking the \emph{Block}-radio button and click \emph{Execute} 
+	\item Here you can choose how to block pallets. Either through entering a time interval, marking the \emph{Block}-radio button and click \emph{Execute}
 	\item A new page will appear to confirm the blocking.
 	\item The other way is to select the pallet in the list and then click \emph{Block pallet}
 	\item A message under the list appears to confirm the blocking.
@@ -199,7 +199,7 @@ To setup the website you will need some sort of server application that allows P
 \subsubsection{Unblock pallets}
 \begin{itemize}
 	\item Click the \emph{Search and Block Pallets} link.
-	\item Here you can choose how to unblock pallets. Either through entering a time interval, marking the \emph{Unblock}-radio button and click \emph{Execute} 
+	\item Here you can choose how to unblock pallets. Either through entering a time interval, marking the \emph{Unblock}-radio button and click \emph{Execute}
 	\item A new page will appear to confirm the unblocking.
 	\item The other way is to click on \emph{View blocked pallets}
 	\item Here you can select the pallet you wish to unblock in the list and then click \emph{Block pallet}
