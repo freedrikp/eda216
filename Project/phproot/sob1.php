@@ -18,19 +18,9 @@
 	$palletId = $palletNbrs[0];
 	$rNbr = $db->blockPallet($palletId);
 	}
-	
+
 	$pallets = $db->getUnblockedPallets();
 	$db->closeConnection();
-
-
-/**
-* HÄR SKA MAN KUNNA BLOCKERA 
-* DONE!
-*
-*OCH SÖKA EFTER LEVERERADE PALLET TILL SPEC. KUND.
-*
-*/
-
 
 ?>
 
@@ -43,7 +33,7 @@
 		<a href="sob1search.php">Search for pallet(s)</a>
 		<p>
 	<br>
-	<br>	
+	<br>
 	<p>
 	<form method=post action="sob1betweenDates.php">
 	Block/Unblock pallet(s) between: <p>
@@ -58,7 +48,7 @@
 	</form>
 	<p>
 	<br>
-	<br>	
+	<br>
 	<form method=post action="sob1.php">
 		Select pallet to BLOCK:
 		<p>
@@ -67,7 +57,7 @@
 		<?php
 			$first = true;
 			foreach ($pallets as $palletcolumn) {
-					
+
 					if ($first) {
 						print "<option selected>";
 						$first = false;
@@ -83,19 +73,19 @@
 
 			}
 		?>
-		
+
 		</select>
-		<p>	
+		<p>
 		<input type=submit value="Block pallet">
 	</form>
 	<p>
 	<?php
 	if ($rNbr > 0){
-		print "The pallet has been BLOCKED."; 
+		print "The pallet has been BLOCKED.";
 	}else if($rNbr == 0){
 		echo "<font color='red'>Could not block pallet </font>";
 	}
-	?> 
+	?>
 	<p>
 	<br>
 		<a href="index.php">Back to the homepage</a>
