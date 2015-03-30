@@ -128,7 +128,7 @@ class Database {
 			$amounts[$row['ingredientName']] = $row['ingredientAmount']*$timesOfRecipe;
 			if ($amounts[$row['ingredientName']] > $row['stockAmount']){
 				$this->conn->rollBack();
-				print "FAIL!!!";
+				print "error";
 				return array();
 			}
 		}
@@ -138,7 +138,7 @@ class Database {
 			$count = $this->executeUpdate($sql,array($value,$key));
 			if ($count <= 0){
 				$this->conn->rollBack();
-				print "FAIL!!!";
+				print "error";
 				return array();
 			}
 		}
@@ -148,7 +148,7 @@ class Database {
 			$count = $this->executeUpdate($sql,array($recipe));
 			if ($count <= 0){
 					$this->conn->rollBack();
-					print "FAIL!!!";
+					print "error";
 					return array();
 			}
 			$sql = "select last_insert_id() as last_id";
